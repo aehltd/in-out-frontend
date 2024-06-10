@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import RegisterForm from './RegisterForm';
 
 const RegisterPage = () => {
@@ -13,12 +13,15 @@ const RegisterPage = () => {
         
         alert("Registration successful");
         //Navigate to home page
-        navigate("/");
+        if(data.role === "admin") {
+            navigate("/admin");
+        } else navigate("/");
     };
 
     return (
         <div className="register-page">
             <RegisterForm onRegister={handleRegister} />
+            <Link to="/login">Back to login</Link>
         </div>
     );
 };

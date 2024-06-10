@@ -25,22 +25,29 @@ const useLogin = () => {
       return;
     }
 
-    const response = await fetch("MY_URL/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+        const response = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+        });
 
-    const data = await response.json();
-    setLoading(false);
+        const data = await response.json();
+        setLoading(false);
 
-    if (!response.ok) {
-      setError(data.msg);
+        if (!response.ok) {
+            throw new error('Failed to login.')
+        }
+
+        return data;
+    } catch (error) {
+        console.error("Login failed:", error.message);
+        setError("Failed to login. Please try again later.");
+        setLoading(false);
+        return null; // Return null or handle error as needed
     }
-
-    return data;
   };
 
   return {

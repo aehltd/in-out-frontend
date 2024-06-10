@@ -13,7 +13,9 @@ const LoginPage = () => {
 
     alert("Login successful");
     //Navigate to home page
-    navigate("/");
+    if(data.role === "admin") {
+        navigate("/admin");
+    } else navigate("/");
   };
 
   return (
