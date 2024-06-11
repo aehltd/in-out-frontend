@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { registerUser } from '../../api/authAPI';
 
 const useRegister = () => {
   const [name, setName] = useState("");
@@ -35,22 +36,15 @@ const useRegister = () => {
         return;
     }
     
-    const response = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/api/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
-
-    const data = await response.json();
-    setLoading(false);
-
-    if (!response.ok) {
-      setError(data.msg);
+    try {
+        const data = await registerUser(name, email, password);
+        setLoading(false);
+        return data;
+    } catch (err) {
+        setError(err.message);
+        setLoading(false);
+        return null;
     }
-
-    return data;
   };
 
   return {

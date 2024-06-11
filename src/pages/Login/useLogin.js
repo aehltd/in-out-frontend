@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { loginUser } from "../../api/authAPI";
 
 const useLogin = () => {
   const [email, setEmail] = useState("");
@@ -26,21 +27,8 @@ const useLogin = () => {
     }
 
     try {
-        const response = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/api/auth/login`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-        });
-
-        const data = await response.json();
+        const data = await loginUser(email, password);
         setLoading(false);
-
-        if (!response.ok) {
-            throw new error('Failed to login.')
-        }
-
         return data;
     } catch (error) {
         console.error("Login failed:", error.message);
