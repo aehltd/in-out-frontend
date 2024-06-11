@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserList from '../../components/UserList';
+import { fetchAllUsers } from '../../api/userAPI';
 
 const AdminPage = () => {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ const AdminPage = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    let listContent;
+    let pageContent;
 
     //Validators
     useEffect(() => {if (!token) navigate('/login')}, [token, navigate]);
@@ -23,14 +24,7 @@ const AdminPage = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/api/auth/all`, {
-                    method: "GET",
-                    headers: {
-                      "Content-Type": "application/json",
-                      "x-auth-token": localStorage.getItem("token"),
-                    },
-                  });
-                const data = await response.json();
+                const data = await fetchAllUsers(token);
                 setUsers(data);
             } catch (err) {
                 setError(err.message);
@@ -38,16 +32,15 @@ const AdminPage = () => {
                 setLoading(false);
             }
         };
-
         fetchUsers();
-    }, []);
-
+    }, [token]);
+    
     // Handlers
-
     // Handle user click
     const handleUserClick = (user) => {
         //navigate(`/admin/${user._id}`);
         console.log(`I'm navigating to user ${user.name}'s page. ID: ${user._id}`)
+        navigate(`/admin/users/${user._id}`);
     }
 
     // Handle logout
@@ -58,9 +51,9 @@ const AdminPage = () => {
         navigate("/login");
     }
 
-    if (loading) listContent = <p>Loading...</p>;
-    else if (error) listContent = <p>{error}</p>;
-    else listContent = <UserList users={users} onUserClick={handleUserClick} />;
+    if (loading) pageContent = <p>Loading...</p>;
+    else if (error) pageContent = <p>{error}</p>;
+    else pageContent = <UserList users={users} onUserClick={handleUserClick} />;
 
     return (
         <div>
@@ -69,7 +62,7 @@ const AdminPage = () => {
                 <h2>Welcome, {name}!</h2>
             </div>
             <h3>All Users</h3>
-            {listContent}
+            {pageContent}
             <div>
                 <button onClick={handleLogout}>Logout</button>
             </div>
