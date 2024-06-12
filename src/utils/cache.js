@@ -1,19 +1,19 @@
-const cache = {}
+const cache = {};
 
 export const setCacheUser = (key, value) => {
-    cache[key] = value;
-}
+  cache[key] = value;
+};
 
 export const getCacheUser = (key) => {
-    return cache[key] || null
-}
+  return cache[key] || null;
+};
 
 export const emptyCache = () => {
-    Object.keys(cache).forEach(key => {
-        delete cache[key];
-    })
-}
+  Object.keys(cache).forEach((key) => {
+    delete cache[key];
+  });
+};
 
 export const printCache = () => {
-    console.table(cache);
-}
+  console.table(cache);
+};

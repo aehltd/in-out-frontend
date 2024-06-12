@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { registerUser } from '../api/authAPI';
+import { useState } from "react";
+import { registerUser } from "../api/authAPI";
 
 const useRegister = () => {
   const [name, setName] = useState("");
@@ -11,7 +11,7 @@ const useRegister = () => {
 
   const handleNameChange = (e) => {
     setName(e.target.value);
-  }
+  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -23,7 +23,7 @@ const useRegister = () => {
 
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,19 +31,19 @@ const useRegister = () => {
     setLoading(true);
 
     if (password !== confirmPassword) {
-        setError('Passwords do not match');
-        setLoading(false);
-        return;
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
     }
-    
+
     try {
-        const data = await registerUser(name, email, password);
-        setLoading(false);
-        return data;
+      const data = await registerUser(name, email, password);
+      setLoading(false);
+      return data;
     } catch (err) {
-        setError(err.message);
-        setLoading(false);
-        return null;
+      setError(err.message);
+      setLoading(false);
+      return null;
     }
   };
 

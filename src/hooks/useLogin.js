@@ -27,14 +27,14 @@ const useLogin = () => {
     }
 
     try {
-        const data = await loginUser(email, password);
-        setLoading(false);
-        return data;
+      const data = await loginUser(email, password);
+      setLoading(false);
+      return data;
     } catch (error) {
-        console.error("Login failed:", error.message);
-        setError("Failed to login. Please try again later.");
-        setLoading(false);
-        return null; // Return null or handle error as needed
+      console.error("Login failed:", error.message);
+      setError("Failed to login. Please try again later.");
+      setLoading(false);
+      return null; // Return null or handle error as needed
     }
   };
 

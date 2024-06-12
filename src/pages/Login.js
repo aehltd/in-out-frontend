@@ -1,10 +1,10 @@
 import React from "react";
-import { useNavigate, Link } from 'react-router-dom';
-import LoginForm from '../components/LoginForm';
+import { useNavigate, Link } from "react-router-dom";
+import LoginForm from "../components/LoginForm";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-    
+
   const handleLogin = (data) => {
     //Set local storage
     localStorage.setItem("token", data.token);
@@ -13,16 +13,18 @@ const LoginPage = () => {
 
     alert("Login successful");
     //Navigate to home page
-    if(data.role === "admin") {
-        navigate("/admin");
+    if (data.role === "admin") {
+      navigate("/admin");
     } else navigate("/");
   };
 
   return (
     <div className="login-page">
       <LoginForm onLogin={handleLogin} />
-      <p>Don't have an account? <Link to="/register">Register here</Link></p>
-    </div> 
+      <p>
+        Don't have an account? <Link to="/register">Register here</Link>
+      </p>
+    </div>
   );
 };
 
