@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { emptyCache } from "../utils/cache";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ const HomePage = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('name');
         localStorage.removeItem('role');
+        emptyCache();
         navigate("/login");
     }
 

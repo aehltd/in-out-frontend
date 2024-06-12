@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserList from '../../components/UserList';
 import { fetchAllUsers } from '../../api/userAPI';
+import { setCacheUser, emptyCache } from '../../utils/cache';
 
 const AdminPage = () => {
     const navigate = useNavigate();
@@ -23,9 +24,14 @@ const AdminPage = () => {
     // Fetch users
     useEffect(() => {
         const fetchUsers = async () => {
+            console.log('Fetching users...');
             try {
                 const data = await fetchAllUsers(token);
                 setUsers(data);
+                data.forEach(user => 
+                    setCacheUser(user._id, user)
+                );
+                console.log('Users fetched and cached.');
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -48,6 +54,7 @@ const AdminPage = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('name');
         localStorage.removeItem('role');
+        emptyCache();
         navigate("/login");
     }
 

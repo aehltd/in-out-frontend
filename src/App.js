@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
-import HomePage from './pages/Home';
+import HomePage from './pages/index';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import AdminPage from './pages/Admin';
 import AdminUserPage from './pages/Admin/UserPage';
 import AdminUserAttendancePage from './pages/Admin/UserPage/Attendance';
 import AdminUserKPIPage from './pages/Admin/UserPage/KPI';
-import AccessDeniedPage from './pages/AccessDenied';
-import NotFoundPage from './pages/PageNotFound';
+import AccessDeniedPage from './pages/403AccessDenied';
+import NotFoundPage from './pages/404NotFound';
 
 const App = () => {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import useRegister from "./useRegister";
+import useRegister from "../hooks/useRegister";
 
 const RegisterForm = ({ onRegister }) => {
   const {

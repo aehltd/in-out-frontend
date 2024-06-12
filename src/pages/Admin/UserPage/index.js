@@ -1,38 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { fetchUser } from '../../../api/userAPI';
+import useUserData from '../../../hooks/useUserData';
 
 const AdminUserPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
+     // Validators
+     useEffect(() => {if (!token) navigate('/login')}, [token, navigate]);
+     useEffect(() => {if (role !== 'admin') navigate('/access-denied');}, [role, navigate]);
 
-    const [user, setUser] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const {user, loading, error} = useUserData(token, id);
     let pageContent;
-    
-    // Validators
-    useEffect(() => {if (!token) navigate('/login')}, [token, navigate]);
-    useEffect(() => {if (role !== 'admin') navigate('/access-denied');}, [role, navigate]);
-
-    // get User from ID
-    useEffect(() => {
-        const fetchUserByID = async () => {
-            try {
-                const data = await fetchUser(token, id);
-                setUser(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUserByID();
-    }, [token, id]);
 
     if (loading) pageContent = <p>Loading...</p>;
     else if (error) pageContent = <p>{error}</p>;
