@@ -66,8 +66,6 @@ const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
 
   return (
     <div>
-      <h2>Editing List</h2>
-
       <button onClick={handleAddClick}>Add</button>
       <Modal
         isOpen={openModal}
@@ -84,7 +82,7 @@ const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
             {Object.keys(fields).map((field) => (
               <div key={field}>
                 <label>{field}: </label>
-                <span key={field}>{formatFieldValue(field, item[field])}</span>
+                <span key={field}>{formatFieldValue(fields[field], item[field])}</span>
               </div>
             ))}
             <button onClick={() => handleEditClick(item)}>Edit</button>

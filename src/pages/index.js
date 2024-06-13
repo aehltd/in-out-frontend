@@ -16,6 +16,20 @@ const HomePage = () => {
     }
   }, [role, navigate]);
 
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    } else {
+      const tokenParts = token.split('.')[1];
+      const decodedToken = JSON.parse(atob(tokenParts));
+      const exp = decodedToken.exp * 1000; // Convert to milliseconds
+      const now = Date.now();
+      if (now > exp) { // Token has expired
+        navigate("/login");
+      }
+    }
+  })
+
   let homeContent;
   let accountNav; //links to login/register if no token, logout if token
 
@@ -27,27 +41,17 @@ const HomePage = () => {
     navigate("/login");
   };
 
-  if (token) {
-    //Logged in
-    homeContent = (
-      <div>
-        <h2>Welcome, {name}!</h2>
-      </div>
-    );
-    accountNav = (
-      <div>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-    );
-  } else {
-    accountNav = (
-      <div>
-        <p>
-          <Link to="/login">Login</Link>
-        </p>
-      </div>
-    );
-  }
+  homeContent = (
+    <div>
+      <h2>Welcome, {name}!</h2>
+      <p><Link to="/attendance">My attendance</Link></p>
+    </div>
+  );
+  accountNav = (
+    <div>
+      <button onClick={handleLogout}>Logout</button>
+    </div>
+  );
 
   return (
     <div>
