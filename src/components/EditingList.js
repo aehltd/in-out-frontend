@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
+import { formatFieldValue, getDefaultFieldValue } from "../utils/fieldFormatting";
 
-const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
+const EditingList = ({list, fields, onAdd, onEdit, onDelete }) => {
     const [openModal, setOpenModal] = useState(false);
-    const [modalContent, setModalContent] = useState(null);
+    const [selectedItem, setSelectedItem] = useState(null); // [item]
+    const [modalType, setModalType] = useState(null); // ['add', 'edit', 'delete']
+    const [modalFunction, setModalFunction] = useState(null); // [onAdd, onEdit, onDelete]
+
+    useEffect( () => {
+        console.log('list loaded');
+        console.table(list);
+    }, [list]);
 
     const handleDeleteClick = (item) => {
-        setModalContent(
-            <div>
-                <p>Are you sure you want to delete this item?</p>
-
-                <button onClick={handleCloseModal}>Cancel</button>
-                <button onClick={() => handleConfirmDelete(item)}>Delete</button>
-            </div>
-        )
+        setModalType('delete');
+        console.log("selected item:")
+        console.table(item);
+        setSelectedItem(item);
+        setModalFunction(() => () => handleConfirmDelete(item));
         setOpenModal(true);
     }
     const handleConfirmDelete = (item) => {
@@ -24,63 +29,67 @@ const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
     }
 
     const handleAddClick = () => { 
-        setModalContent(
-            <div>
-                <p>Add new item</p>
-                <button onClick={handleCloseModal}>Cancel</button>
-                <button onClick={() => handleConfirmAdd()}>Add</button>
-            </div>
-        )
+        setModalType('add');
+        const newItem = {};
+        Object.keys(fields).forEach((field) => {
+            newItem[field] = getDefaultFieldValue(fields[field]);
+            console.log(`field: ${field}, value: ${newItem[field]}`);
+        });
+        setSelectedItem(newItem);
+        setModalFunction(() => handleConfirmAdd);
         setOpenModal(true);
     }
-    const handleConfirmAdd = () => {
-        onAdd();
+    const handleConfirmAdd = (newItem) => {
+        onAdd(newItem);
         handleCloseModal();
     }
 
     const handleEditClick = (item) => {
-        setModalContent(
-            <div>
-                <p>Edit item</p>
-                {fields.map((field) => (
-                    <div key={field}>
-                        <label>{field}</label>
-                        <input type="text" name={field} />
-                    </div>
-                ))}
-
-                <button onClick={handleCloseModal}>Cancel</button>
-                <button onClick={() => handleConfirmEdit(item)}>Add</button>
-            </div>
-        )
+        setModalType('edit');
+        console.log("selected item:")
+        console.table(item);
+        setSelectedItem(item);
+        setModalFunction(() => handleConfirmEdit);
         setOpenModal(true);
     }
-    const handleConfirmEdit = (item) => {
-        onEdit(item);
+    const handleConfirmEdit = (newItem) => {
+        onEdit(newItem);
         handleCloseModal();
     }
 
     const handleCloseModal = () => {
         setOpenModal(false);
-        setModalContent(null);
     }
+
     return (
     <div>
       <h2>Editing List</h2>
+
+      <button onClick={handleAddClick}>Add</button>
+      <Modal 
+        isOpen={openModal} 
+        type={modalType} 
+        initialData={selectedItem} 
+        fields={fields}
+        onCancel={handleCloseModal}
+        onSubmit={modalFunction}
+        />
+
       <ul>
         {list.map((item) => (
           <li key={item._id}>
-            {fields.map((field) => (
-              <span key={field}>{item[field]} </span>
+            {Object.keys(fields).map((field) => (
+              <div key={field}>
+                <label>{field}: </label>
+                <span key={field}>{formatFieldValue(field, item[field]) }</span>
+              </div>
             ))}
             <button onClick={() => handleEditClick(item)}>Edit</button>
             <button onClick={() => handleDeleteClick(item)}>Delete</button>
           </li>
         ))}
       </ul>
-      <button onClick={handleAddClick}>Add</button>
 
-      <Modal isOpen={openModal} children={modalContent} />
     </div>
   );
 };

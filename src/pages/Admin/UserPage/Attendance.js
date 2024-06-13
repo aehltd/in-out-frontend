@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import EditingList from "../../../components/EditingList";
-import { getUserAttendance } from "../../../api/attendanceAPI";
+import { getUserAttendance, addAttendanceRecord, deleteAttendanceRecord, editAttendanceRecord } from "../../../api/attendanceAPI";
 import useUserData from "../../../hooks/useUserData";
 import useList from "../../../hooks/useList";
 
@@ -27,6 +27,7 @@ const AdminUserAttendancePage = () => {
     list,
     loading: listLoading,
     error: listError,
+    loadList
   } = useList(token, id, getUserAttendance);
 
   let title;
@@ -35,14 +36,20 @@ const AdminUserAttendancePage = () => {
   let backLink;
 
   //handle adding a new attendance
-  const handleAdd = () => {
+  const handleAdd = async (newItem) => {
     console.log("Tried to add new item.");
+    console.table(await addAttendanceRecord(token, id, newItem));
+    loadList();
   };
-  const handleEdit = (item) => {
-    console.log(`Tried to edit item: ${item._id}`);
+  const handleEdit = async (newItem) => {
+    console.log(`Tried to edit item: ${newItem._id}`);
+    console.table(await editAttendanceRecord(token, newItem));
+    loadList();
   };
-  const handleDelete = (item) => {
+  const handleDelete = async (item) => {
     console.log(`Tried to delete item: ${item._id}`);
+    console.table(await deleteAttendanceRecord(token, item._id));
+    loadList();
   };
 
   if (userLoading) {
@@ -72,7 +79,7 @@ const AdminUserAttendancePage = () => {
     pageContent = (
       <EditingList
         list={list}
-        fields={["date", "IsClockedIn"]}
+        fields={{date: 'datetime-local', isClockedIn: 'checkbox'}}
         onAdd={handleAdd}
         onEdit={handleEdit}
         onDelete={handleDelete}

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import EditingList from "../../../components/EditingList";
-import { getUserKPI } from "../../../api/kpiAPI";
+import { getUserKPI, addKPIRecord, editKPIRecord, deleteKPIRecord } from "../../../api/kpiAPI";
 import useList from "../../../hooks/useList";
 import useUserData from "../../../hooks/useUserData";
 
@@ -27,6 +27,7 @@ const AdminUserKPIPage = () => {
     list,
     loading: listLoading,
     error: listError,
+    loadList
   } = useList(token, id, getUserKPI);
 
   let title;
@@ -34,17 +35,21 @@ const AdminUserKPIPage = () => {
   let pageContent;
   let backLink;
 
-  //handle adding a new attendance
-  const handleAdd = () => {
+  //handle adding a new KPI
+  const handleAdd = async (newItem) => {
     console.log("Tried to add new item.");
+    console.table(await addKPIRecord(token, id, newItem));
+    loadList();
   };
-
-  const handleEdit = (item) => {
-    console.log(`Tried to edit item: ${item._id}`);
+  const handleEdit = async (newItem) => {
+    console.log(`Tried to edit item: ${newItem._id}`);
+    console.table(await editKPIRecord(token, newItem));
+    loadList();
   };
-
-  const handleDelete = (item) => {
+  const handleDelete = async (item) => {
     console.log(`Tried to delete item: ${item._id}`);
+    console.table(await deleteKPIRecord(token, item._id));
+    loadList();
   };
 
   if (userLoading) {
@@ -74,7 +79,7 @@ const AdminUserKPIPage = () => {
     pageContent = (
       <EditingList
         list={list}
-        fields={["date", "kpi"]}
+        fields={{date: "date", kpi: "number"}}
         onAdd={handleAdd}
         onEdit={handleEdit}
         onDelete={handleDelete}
