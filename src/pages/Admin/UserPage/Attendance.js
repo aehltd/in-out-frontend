@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import EditingList from "../../../components/EditingList";
-import { getUserAttendance, addAttendanceRecord, deleteAttendanceRecord, editAttendanceRecord } from "../../../api/attendanceAPI";
+import {
+  getUserAttendance,
+  addAttendanceRecord,
+  deleteAttendanceRecord,
+  editAttendanceRecord,
+} from "../../../api/attendanceAPI";
 import useUserData from "../../../hooks/useUserData";
 import useList from "../../../hooks/useList";
 
@@ -27,7 +32,7 @@ const AdminUserAttendancePage = () => {
     list,
     loading: listLoading,
     error: listError,
-    loadList
+    loadList,
   } = useList(token, id, getUserAttendance);
 
   let title;
@@ -79,7 +84,7 @@ const AdminUserAttendancePage = () => {
     pageContent = (
       <EditingList
         list={list}
-        fields={{date: 'datetime-local', isClockedIn: 'checkbox'}}
+        fields={{ date: "datetime-local", isClockedIn: "checkbox" }}
         onAdd={handleAdd}
         onEdit={handleEdit}
         onDelete={handleDelete}

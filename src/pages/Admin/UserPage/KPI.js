@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import EditingList from "../../../components/EditingList";
-import { getUserKPI, addKPIRecord, editKPIRecord, deleteKPIRecord } from "../../../api/kpiAPI";
+import {
+  getUserKPI,
+  addKPIRecord,
+  editKPIRecord,
+  deleteKPIRecord,
+} from "../../../api/kpiAPI";
 import useList from "../../../hooks/useList";
 import useUserData from "../../../hooks/useUserData";
 
@@ -27,7 +32,7 @@ const AdminUserKPIPage = () => {
     list,
     loading: listLoading,
     error: listError,
-    loadList
+    loadList,
   } = useList(token, id, getUserKPI);
 
   let title;
@@ -79,7 +84,7 @@ const AdminUserKPIPage = () => {
     pageContent = (
       <EditingList
         list={list}
-        fields={{date: "date", kpi: "number"}}
+        fields={{ date: "date", kpi: "number" }}
         onAdd={handleAdd}
         onEdit={handleEdit}
         onDelete={handleDelete}

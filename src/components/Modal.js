@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { convertLocalToUTC } from "../utils/dateFormatting";
-import { formatFieldValue, getDefaultFieldValue } from "../utils/fieldFormatting";
+import {
+  formatFieldValue,
+  getDefaultFieldValue,
+} from "../utils/fieldFormatting";
 
-const Modal = ({
-  isOpen,
-  type,
-  initialData,
-  fields,
-  onCancel,
-  onSubmit,
-}) => {
+const Modal = ({ isOpen, type, initialData, fields, onCancel, onSubmit }) => {
   const [formData, setFormData] = useState(initialData || {});
 
   useEffect(() => {
@@ -20,10 +16,12 @@ const Modal = ({
 
   const handleInputChange = (e) => {
     const { name, value, type: inputType, checked } = e.target;
-    const newValue = 
-      inputType === "datetime-local" || inputType === "date" ? convertLocalToUTC(value)
-      : inputType === "checkbox" ? checked
-      : value;
+    const newValue =
+      inputType === "datetime-local" || inputType === "date"
+        ? convertLocalToUTC(value)
+        : inputType === "checkbox"
+        ? checked
+        : value;
 
     setFormData({
       ...formData,
@@ -33,10 +31,9 @@ const Modal = ({
 
   const handleSubmit = (e) => {
     if (type === "delete") {
-        onSubmit(initialData);
-    }
-    else { 
-        onSubmit(formData);
+      onSubmit(initialData);
+    } else {
+      onSubmit(formData);
     }
   };
 
@@ -60,16 +57,20 @@ const Modal = ({
                 <label>{field}</label>
                 {fields[field] === "checkbox" ? (
                   <input
-                    type="checkbox"
+                    type={fields[field]}
                     name={field}
-                    checked={formData[field] || false}
+                    value={formData[field] || false}
                     onChange={handleInputChange}
                   />
                 ) : (
                   <input
                     type={fields[field]}
                     name={field}
-                    value={formData[field] ? formatFieldValue(fields[field], formData[field]) : getDefaultFieldValue(fields[field])}
+                    value={
+                      formData[field]
+                        ? formatFieldValue(fields[field], formData[field])
+                        : getDefaultFieldValue(fields[field])
+                    }
                     onChange={handleInputChange}
                   />
                 )}
