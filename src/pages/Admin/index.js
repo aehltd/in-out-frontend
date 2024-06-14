@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserList from "../../components/UserList";
-import { fetchAllUsers } from "../../api/userAPI";
-import { setCacheUser, emptyCache } from "../../utils/cache";
+import useAllUserData from "../../hooks/useAllUserData";
+import { emptyCache } from "../../utils/cache";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -12,9 +12,7 @@ const AdminPage = () => {
   const role = localStorage.getItem("role");
 
   // States for user list
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {users, loading, error} = useAllUserData();
   let pageContent;
 
   //Validators
@@ -25,25 +23,19 @@ const AdminPage = () => {
     if (role !== "admin") navigate("/access-denied");
   }, [role, navigate]);
 
-  // Fetch users
-  useEffect(() => {
-    const fetchUsers = async () => {
-      console.log("Fetching users...");
-      try {
-        const data = await fetchAllUsers();
-        setUsers(data);
-        data.forEach((user) => setCacheUser(user._id, user));
-        console.log("Users fetched and cached.");
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUsers();
-  }, [token]);
-
   // Handlers
+
+  // Handle new meeting
+  const handleNewMeeting = () => {
+    console.log("NEW MEETING");
+    navigate("/admin/new-notification");
+  }
+
+  // Handle new task
+  const handleNewTask = () => {
+    console.log("NEW TASK");
+  }
+
   // Handle user click
   const handleUserClick = (user) => {
     //navigate(`/admin/${user._id}`);
@@ -70,6 +62,9 @@ const AdminPage = () => {
       <div>
         <h2>Welcome, {name}!</h2>
       </div>
+      <h3>Actions</h3>
+      <button onClick={handleNewMeeting}>Create a new meeting...</button>
+      <button onClick={handleNewTask}>Assign a new task...</button>
       <h3>All Users</h3>
       {pageContent}
       <div>

@@ -24,6 +24,7 @@ const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
     setModalFunction(() => () => handleConfirmDelete(item));
     setOpenModal(true);
   };
+  
   const handleConfirmDelete = (item) => {
     if (item) {
       onDelete(item);

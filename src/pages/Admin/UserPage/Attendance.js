@@ -22,7 +22,7 @@ const AdminUserAttendancePage = () => {
   useEffect(() => {
     if (role !== "admin") navigate("/access-denied");
   }, [role, navigate]);
-
+  
   const {
     user,
     loading: userLoading,
@@ -35,27 +35,29 @@ const AdminUserAttendancePage = () => {
     loadList,
   } = useList(id, getUserAttendance);
 
-  let title;
-  let userContent;
-  let pageContent;
-  let backLink;
-
   //handle adding a new attendance
   const handleAdd = async (newItem) => {
     console.log("Tried to add new item.");
     console.table(await addAttendanceRecord(id, newItem));
     loadList();
   };
+  //handle editing an attendance
   const handleEdit = async (newItem) => {
     console.log(`Tried to edit item: ${newItem._id}`);
     console.table(await editAttendanceRecord(newItem));
     loadList();
   };
+  //handle deleting an attendance
   const handleDelete = async (item) => {
     console.log(`Tried to delete item: ${item._id}`);
     console.table(await deleteAttendanceRecord(item._id));
     loadList();
   };
+
+  let title;
+  let userContent;
+  let pageContent;
+  let backLink;
 
   if (userLoading) {
     userContent = <p>Loading...</p>;

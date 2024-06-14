@@ -1,4 +1,4 @@
-const getUserKPI = async (_id) => {
+async function getUserKPI(_id) {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_TEST_BACKEND_URL}/api/kpi?user=${_id}`,

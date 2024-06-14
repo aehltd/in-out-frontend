@@ -1,4 +1,4 @@
-const getUserAttendance = async (_id = null) => {
+async function getUserAttendance(_id = null) {
   try {
     // If _id is null, get all attendance records, otherwise get attendance records for a specific user
     const url = _id
