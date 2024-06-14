@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchUser } from "../api/userAPI";
 import { getCacheUser, setCacheUser } from "../utils/cache";
 
-const useUserData = (token, id) => {
+const useUserData = (id) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,7 +18,8 @@ const useUserData = (token, id) => {
           setUser(cachedUser);
         } else {
           console.log("fetching user data");
-          const userData = await fetchUser(token, id);
+          console.log(id);
+          const userData = await fetchUser(id);
           console.log("cacheing user data");
           setCacheUser(id, userData);
           setUser(userData);
@@ -32,7 +33,7 @@ const useUserData = (token, id) => {
     };
 
     fetchData();
-  }, [token, id]);
+  }, [id]);
 
   return { user, loading, error };
 };

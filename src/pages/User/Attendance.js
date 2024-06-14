@@ -1,40 +1,41 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import useList from "../../hooks/useList";
+import ClockInButton from "../../components/ClockInButton";
 import ViewingList from "../../components/ViewingList";
 import { getUserAttendance } from "../../api/attendanceAPI";
 
 const UserAttendancePage = () => {
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
   const name = localStorage.getItem("name");
   
   const {
     list,
     loading,
-    error
-  } = useList(token, null, getUserAttendance);
+    error,
+    loadList
+  } = useList(null, getUserAttendance);
 
-  let title;
-  let pageContent;
+  let listContent;
   let backLink;
 
-  title = <h1>Attendance Record for {name}</h1>;
-  if (loading) pageContent = <p>Loading...</p>;
-  else if (error) { pageContent = <p>{error.message}</p>; }
-  else pageContent = (
-    <div>
-        <button>Clock in</button>
-        <ViewingList list={list} fields={{ date: "datetime-local", isClockedIn: "checkbox" }} />
-    </div>
+  const handleClockIn = () => {
+    loadList();
+  }
+
+  if (loading) listContent = <p>Loading...</p>;
+  else if (error) { listContent = <p>{error.message}</p>; }
+  else listContent = ( 
+    <ViewingList list={list} fields={{ date: "datetime-local", isClockedIn: "checkbox" }} />
   )
   backLink = <button onClick={() => navigate("/")}>Back to home</button>
 
   return (
     <div>
-      {title}
-      {pageContent}
+      <h1>Attendance Record for {name}</h1>
+      <ClockInButton onClick={handleClockIn} />
+      {listContent}
       {backLink}
     </div>
   )

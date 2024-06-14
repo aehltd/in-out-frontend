@@ -1,4 +1,4 @@
-const fetchAllUsers = async (token) => {
+const fetchAllUsers = async () => {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/`,
@@ -6,7 +6,7 @@ const fetchAllUsers = async (token) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": token,
+          "x-auth-token": localStorage.getItem("token"),
         },
       }
     );
@@ -20,15 +20,18 @@ const fetchAllUsers = async (token) => {
   }
 };
 
-const fetchUser = async (token, userId) => {
+const fetchUser = async (userId = null) => {
+  const url = userId 
+    ? `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/${userId}`
+    : `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/me`; 
+
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/${userId}`,
+    const response = await fetch(url,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": token,
+          "x-auth-token": localStorage.getItem("token"),
         },
       }
     );

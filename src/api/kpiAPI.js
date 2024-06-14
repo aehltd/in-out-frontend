@@ -1,4 +1,4 @@
-const getUserKPI = async (token, _id) => {
+const getUserKPI = async (_id) => {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_TEST_BACKEND_URL}/api/kpi?user=${_id}`,
@@ -6,7 +6,7 @@ const getUserKPI = async (token, _id) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": token,
+          "x-auth-token": localStorage.getItem("token"),
         },
       }
     );
@@ -21,7 +21,7 @@ const getUserKPI = async (token, _id) => {
   }
 };
 
-async function addKPIRecord(token, _id, newItem) {
+async function addKPIRecord(_id, newItem) {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_TEST_BACKEND_URL}/api/kpi/add`,
@@ -29,7 +29,7 @@ async function addKPIRecord(token, _id, newItem) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": token,
+          "x-auth-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({
           user: _id,
@@ -49,7 +49,7 @@ async function addKPIRecord(token, _id, newItem) {
 }
 
 // Delete record from server by ID
-async function deleteKPIRecord(token, kpiID) {
+async function deleteKPIRecord(kpiID) {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_TEST_BACKEND_URL}/api/kpi/delete`,
@@ -57,7 +57,7 @@ async function deleteKPIRecord(token, kpiID) {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": token,
+          "x-auth-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({ _id: kpiID }),
       }
@@ -75,7 +75,7 @@ async function deleteKPIRecord(token, kpiID) {
 }
 
 // Edit record on server by ID
-async function editKPIRecord(token, updatedItem) {
+async function editKPIRecord(updatedItem) {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_TEST_BACKEND_URL}/api/kpi/edit`,
@@ -83,7 +83,7 @@ async function editKPIRecord(token, updatedItem) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": token,
+          "x-auth-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({
           _id: updatedItem._id,

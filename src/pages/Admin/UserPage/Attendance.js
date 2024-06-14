@@ -27,13 +27,13 @@ const AdminUserAttendancePage = () => {
     user,
     loading: userLoading,
     error: userError,
-  } = useUserData(token, id);
+  } = useUserData(id);
   const {
     list,
     loading: listLoading,
     error: listError,
     loadList,
-  } = useList(token, id, getUserAttendance);
+  } = useList(id, getUserAttendance);
 
   let title;
   let userContent;
@@ -43,17 +43,17 @@ const AdminUserAttendancePage = () => {
   //handle adding a new attendance
   const handleAdd = async (newItem) => {
     console.log("Tried to add new item.");
-    console.table(await addAttendanceRecord(token, id, newItem));
+    console.table(await addAttendanceRecord(id, newItem));
     loadList();
   };
   const handleEdit = async (newItem) => {
     console.log(`Tried to edit item: ${newItem._id}`);
-    console.table(await editAttendanceRecord(token, newItem));
+    console.table(await editAttendanceRecord(newItem));
     loadList();
   };
   const handleDelete = async (item) => {
     console.log(`Tried to delete item: ${item._id}`);
-    console.table(await deleteAttendanceRecord(token, item._id));
+    console.table(await deleteAttendanceRecord(item._id));
     loadList();
   };
 

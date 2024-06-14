@@ -1,15 +1,17 @@
-const getUserAttendance = async (token, _id = null) => {
+const getUserAttendance = async (_id = null) => {
   try {
+    // If _id is null, get all attendance records, otherwise get attendance records for a specific user
     const url = _id
       ? `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance?user=${_id}`
       : `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/history`
 
+    // Get attendance records from server
     const response = await fetch(url,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": token,
+          "x-auth-token": localStorage.getItem("token"),
         },
       }
     );
@@ -24,7 +26,7 @@ const getUserAttendance = async (token, _id = null) => {
   }
 };
 
-async function addAttendanceRecord(token, _id, newItem) {
+async function addAttendanceRecord(_id, newItem) {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/add`,
@@ -32,7 +34,7 @@ async function addAttendanceRecord(token, _id, newItem) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": token,
+          "x-auth-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({
           user: _id,
@@ -52,7 +54,7 @@ async function addAttendanceRecord(token, _id, newItem) {
 }
 
 // Delete record from server by ID
-async function deleteAttendanceRecord(token, attendanceID) {
+async function deleteAttendanceRecord(attendanceID) {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/delete`,
@@ -60,7 +62,7 @@ async function deleteAttendanceRecord(token, attendanceID) {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": token,
+          "x-auth-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({ _id: attendanceID }),
       }
@@ -80,7 +82,7 @@ async function deleteAttendanceRecord(token, attendanceID) {
 }
 
 // Edit record on server by ID
-async function editAttendanceRecord(token, updatedItem) {
+async function editAttendanceRecord(updatedItem) {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/edit`,
@@ -88,7 +90,7 @@ async function editAttendanceRecord(token, updatedItem) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": token,
+          "x-auth-token": localStorage.getItem("token"),
         },
         body: JSON.stringify({
           _id: updatedItem._id,
@@ -112,12 +114,12 @@ async function editAttendanceRecord(token, updatedItem) {
 }
 
 // Handle the clock in event
-async function clockIn(token) {
-  const response = await fetch("/api/attendance/clockin", {
+async function clockIn() {
+  const response = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/clockin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-auth-token": token,
+      "x-auth-token": localStorage.getItem("token"),
     },
   });
 
@@ -129,7 +131,7 @@ async function clockIn(token) {
 
     // Check if the user is punctual, almost late, or late
     if (hours < 9 || (hours === 9 && minutes < 35)) {
-      alert("You are very punctual");
+      alert("You are punctual");
     } else if (hours === 9 && minutes < 40) {
       alert("You are almost late");
     } else {
@@ -140,23 +142,28 @@ async function clockIn(token) {
   }
 }
 
-// Check if the user already clocked in today
-async function checkClockInStatus(token) {
-  const response = await fetch("/api/attendance/history", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "x-auth-token": token,
-    },
-  });
+// Check if the user has clocked in today
+async function checkClockInStatus() {
+  try {
+    console.log('Checking clock in status from server...');
+    const response = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/today`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": localStorage.getItem("token"),
+      },
+    });
 
-  const data = await response.json();
-  const today = new Date().toISOString().split("T")[0];
-  const clockedInToday = data.some(
-    (record) => new Date(record.date).toISOString().split("T")[0] === today
-  );
+    const data = await response.json();
+    console.log('API response:', data);
 
-  return clockedInToday;
+    const clockedIn = data.msg === "Records found"
+    console.log('Clocked in:', clockedIn);
+    return clockedIn;
+  } catch (error) {
+    console.error('Fetch error:', error);
+    return false;
+  }
 }
 
 export {
@@ -165,4 +172,5 @@ export {
   deleteAttendanceRecord,
   editAttendanceRecord,
   clockIn,
+  checkClockInStatus,
 };

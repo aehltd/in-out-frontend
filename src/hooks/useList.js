@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 
-const useList = (token, id = null, getListContents) => {
+const useList = (id = null, getListContents) => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,8 +10,8 @@ const useList = (token, id = null, getListContents) => {
     setLoading(true);
     try {
       const attendanceData = 
-        id ? await getListContents(token, id)
-        : await getListContents(token);
+        id ? await getListContents(id)
+        : await getListContents();
 
       setList(attendanceData);
     } catch (err) {
@@ -20,7 +20,7 @@ const useList = (token, id = null, getListContents) => {
     } finally {
       setLoading(false);
     }
-  }, [token, id, getListContents]);
+  }, [id, getListContents]);
 
   useEffect(() => {
     loadList();

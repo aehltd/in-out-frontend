@@ -30,7 +30,7 @@ const AdminPage = () => {
     const fetchUsers = async () => {
       console.log("Fetching users...");
       try {
-        const data = await fetchAllUsers(token);
+        const data = await fetchAllUsers();
         setUsers(data);
         data.forEach((user) => setCacheUser(user._id, user));
         console.log("Users fetched and cached.");

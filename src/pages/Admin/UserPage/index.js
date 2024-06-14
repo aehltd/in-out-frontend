@@ -15,7 +15,7 @@ const AdminUserPage = () => {
     if (role !== "admin") navigate("/access-denied");
   }, [role, navigate]);
 
-  const { user, loading, error } = useUserData(token, id);
+  const { user, loading, error } = useUserData(id);
   let pageContent;
 
   if (loading) pageContent = <p>Loading...</p>;
