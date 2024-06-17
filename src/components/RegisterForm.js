@@ -26,17 +26,18 @@ const RegisterForm = ({ onRegister }) => {
 
   return (
     <div>
-      <h2 className="block text-lg font-bold mb-4">Register</h2>
-      {error && <p>{error}</p>}
+      <div className="flex items-baseline mb-4">
+        <span className="block text-lg font-bold mr-6">Register</span>
+        <span className="text-sm font-medium text-red-500">{error && <p>{error}</p>}</span>
+      </div>
       <form onSubmit={onRegisterSubmit}>
         <div>
           <label htmlFor="name" className="block text-sm font-medium">Name</label>
           <input type="text" id="name"
             className="mt-1 px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400
             focus:outline-none focus:ring-1
-            invalid:border-pink-500 invalid:text-pink-600
             focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-            value={name} onChange={handleNameChange} required
+            value={name} onChange={handleNameChange} placeholder="John Doe" required
           />
         </div>
         <div className="mt-4">
@@ -45,9 +46,8 @@ const RegisterForm = ({ onRegister }) => {
             <input type="email" id="email"
               className="px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400
               focus:outline-none focus:ring-1
-              invalid:border-pink-500 invalid:text-pink-600
               focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
-              value={email} onChange={handleEmailChange} required
+              value={email} onChange={handleEmailChange} placeholder="john.doe@example.com" required
             />
           </div>
         </div>
@@ -56,7 +56,6 @@ const RegisterForm = ({ onRegister }) => {
           <input type="password" id="password"
             className="mt-1 px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400
             focus:outline-none focus:ring-1
-            invalid:border-pink-500 invalid:text-pink-600
             focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
             value={password} onChange={handlePasswordChange} required
           />
@@ -66,16 +65,15 @@ const RegisterForm = ({ onRegister }) => {
           <input type="password" id="confirm-password"
             className="mt-1 px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400
             focus:outline-none focus:ring-1
-            invalid:border-pink-500 invalid:text-pink-600
             focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
             value={confirmPassword} onChange={handleConfirmPasswordChange} required
           />
         </div>
         <div className="mt-5 flex space-x-4 justify-between">
           <span className="text-sm font-medium self-end ">
-            Have an account? <Link to="/login" className="text-sky-500 underline">Back to login</Link>
+            Have an account already? <Link to="/login" className="text-sky-500 underline">Log in</Link>
           </span>
-          <button className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded items-center"
+          <button className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg items-center"
             type="submit" disabled={loading}>
             {loading ? "Loading..." : "Register"}
           </button>
