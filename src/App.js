@@ -17,7 +17,7 @@ const App = () => {
   return (
     <Router>
       <div className="flex items-center justify-center h-screen bg-gray-200"> 
-        <div className="max-w-md max-y-md w-5/6 mx-auto my-auto bg-white shadow px-5 py-5 rounded-lg">
+        <div className="max-w-md w-5/6 mx-auto my-auto bg-white shadow px-5 py-5 rounded-lg">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path='/attendance' element={<UserAttendancePage/>} />
