@@ -30,27 +30,31 @@ const CheckboxDropdown = ({ users, selectedRecipients, setSelectedRecipients }) 
         {isOpen ? 'Close' : 'Open'} Recipients
       </button>
       {isOpen && (
-        <div className="dropdown-content">
-          <label>
-            <input
-              type="checkbox"
-              checked={selectedRecipients.length === users.length}
-              onChange={handleSelectAllChange}
-            />
-            Select All
-          </label>
-          {users.map((user) => (
-            <label key={user._id}>
+        <ul className="dropdown-content">
+          <li>
+            <label>
               <input
                 type="checkbox"
-                value={user._id}
-                checked={selectedRecipients.includes(user._id)}
-                onChange={() => handleCheckboxChange(user._id)}
+                checked={selectedRecipients.length === users.length}
+                onChange={handleSelectAllChange}
               />
-              {user.name}
+              Select All
             </label>
+          </li>
+          {users.map((user) => (
+            <li>
+              <label key={user._id}>
+                <input
+                  type="checkbox"
+                  value={user._id}
+                  checked={selectedRecipients.includes(user._id)}
+                  onChange={() => handleCheckboxChange(user._id)}
+                />
+                {user.name}
+              </label>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

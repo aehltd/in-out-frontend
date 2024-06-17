@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import RegisterForm from "../components/RegisterForm";
 
 const RegisterPage = () => {
@@ -19,10 +19,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="register-page">
-      <RegisterForm onRegister={handleRegister} />
-      <Link to="/login">Back to login</Link>
-    </div>
+    <RegisterForm onRegister={handleRegister} />
   );
 };
 
