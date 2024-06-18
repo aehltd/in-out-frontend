@@ -77,18 +77,29 @@ const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
         onSubmit={modalFunction}
       />
 
-      <ul>
+      <ul className="list">
         {list.map((item) => (
-          <li key={item._id}>
+        <li className="list-item" key={item._id}>
+        <div className="flex justify-between items-center">
+          <h3>{item.name}</h3>
+          <div className="grow">
             {Object.keys(fields).map((field) => (
               <div key={field}>
                 <label>{field}: </label>
-                <span key={field}>{formatFieldValue(fields[field], item[field])}</span>
+                <span>{formatFieldValue(fields[field], item[field])}</span>
               </div>
             ))}
-            <button onClick={() => handleEditClick(item)}>Edit</button>
-            <button onClick={() => handleDeleteClick(item)}>Delete</button>
-          </li>
+          </div>
+          <div className="flex space-x-2">
+            <button className="btn text-black bg-transparent hover:bg-gray-400 px-2 py-2" onClick={() => handleEditClick(item)}>
+              <span class="material-icons-outlined">edit</span>
+            </button>
+            <button className="btn text-black bg-transparent hover:bg-gray-400 px-2 py-2" onClick={() => handleDeleteClick(item)}>
+            <span class="material-icons-outlined">delete</span>
+            </button>
+         </div>
+         </div>
+       </li>
         ))}
       </ul>
     </div>

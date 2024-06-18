@@ -34,9 +34,7 @@ const RegisterForm = ({ onRegister }) => {
         <div>
           <label htmlFor="name" className="block text-sm font-medium">Name</label>
           <input type="text" id="name"
-            className="mt-1 px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400
-            focus:outline-none focus:ring-1
-            focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+            className="input-field"
             value={name} onChange={handleNameChange} placeholder="John Doe" required
           />
         </div>
@@ -44,9 +42,7 @@ const RegisterForm = ({ onRegister }) => {
           <label htmlFor="email" className="block text-sm font-medium">Email</label>
           <div className="mt-1">
             <input type="email" id="email"
-              className="px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400
-              focus:outline-none focus:ring-1
-              focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+              className="input-field"
               value={email} onChange={handleEmailChange} placeholder="john.doe@example.com" required
             />
           </div>
@@ -54,18 +50,14 @@ const RegisterForm = ({ onRegister }) => {
         <div className="mt-4">
           <label htmlFor="password" className="block text-sm font-medium">Password</label>
           <input type="password" id="password"
-            className="mt-1 px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400
-            focus:outline-none focus:ring-1
-            focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+            className="input-field"
             value={password} onChange={handlePasswordChange} required
           />
         </div>
         <div className="mt-4">
           <label htmlFor="confirm-password" className="block text-sm font-medium">Confirm Password</label>
           <input type="password" id="confirm-password"
-            className="mt-1 px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400
-            focus:outline-none focus:ring-1
-            focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+            className="input-field"
             value={confirmPassword} onChange={handleConfirmPasswordChange} required
           />
         </div>
@@ -73,7 +65,7 @@ const RegisterForm = ({ onRegister }) => {
           <span className="text-sm font-medium self-end ">
             Have an account already? <Link to="/login" className="text-sky-500 underline">Log in</Link>
           </span>
-          <button className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg items-center"
+          <button className="btn"
             type="submit" disabled={loading}>
             {loading ? "Loading..." : "Register"}
           </button>

@@ -45,18 +45,19 @@ const Modal = ({ isOpen, type, initialData, fields, onCancel, onSubmit }) => {
         {type === "delete" ? (
           <div>
             <p>Are you sure you want to delete this item?</p>
-            <button onClick={onCancel}>Cancel</button>
-            <button onClick={handleSubmit}>Delete</button>
+            <button className="btn" onClick={onCancel}>Cancel</button>
+            <button className="btn" onClick={handleSubmit}>Delete</button>
           </div>
         ) : (
           <div>
             {type === "add" && <p>Add new item</p>}
             {type === "edit" && <p>Edit item</p>}
             {Object.keys(fields).map((field) => (
-              <div key={field}>
+              <div className="flex space-x-6 justify-between mt-4" key={field}>
                 <label>{field}</label>
                 {fields[field] === "checkbox" ? (
                   <input
+                    className = "mt-1 px-3 py-2 block w-full" 
                     type={fields[field]}
                     name={field}
                     value={formData[field] || false}
@@ -64,6 +65,7 @@ const Modal = ({ isOpen, type, initialData, fields, onCancel, onSubmit }) => {
                   />
                 ) : (
                   <input
+                    className="input-field"
                     type={fields[field]}
                     name={field}
                     value={
@@ -76,8 +78,8 @@ const Modal = ({ isOpen, type, initialData, fields, onCancel, onSubmit }) => {
                 )}
               </div>
             ))}
-            <button onClick={onCancel}>Cancel</button>
-            <button onClick={handleSubmit}>
+            <button className="btn" onClick={onCancel}>Cancel</button>
+            <button className="btn" onClick={handleSubmit}>
               {type === "add" ? "Add" : "Save"}
             </button>
           </div>

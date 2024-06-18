@@ -31,9 +31,7 @@ const LoginForm = ({ onLogin }) => {
           <label htmlFor="email" className="block text-sm font-medium">Email</label>
           <div className="mt-1">
             <input type="email" id="email"
-              className="px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400
-              focus:outline-none focus:ring-1
-              focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+              className="input-field"
               value={email} onChange={handleEmailChange} placeholder="john.doe@example.com" required
             />
           </div>
@@ -41,9 +39,7 @@ const LoginForm = ({ onLogin }) => {
         <div className="mt-4">
           <label htmlFor="password" className="block text-sm font-medium">Password</label>
           <input type="password" id="password"
-            className="mt-1 px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400
-            focus:outline-none focus:ring-1
-            focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+            className="input-field"
             value={password} onChange={handlePasswordChange} required
           />
         </div>

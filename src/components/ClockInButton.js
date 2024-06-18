@@ -25,7 +25,7 @@ const ClockInButton = ({onClick}) => {
   }
 
   return (
-    <button onClick={handleClick} disabled={isClockedIn}>Clock In</button>
+    <button className="btn" onClick={handleClick} disabled={isClockedIn}>Clock In</button>
   )
 }
 

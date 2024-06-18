@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useUserData from "../../../hooks/useUserData";
 
 const AdminUserPage = () => {
@@ -22,7 +22,19 @@ const AdminUserPage = () => {
   } = useUserData(id);
   let pageContent;
 
-  if (loading) pageContent = <p>Loading...</p>;
+  const handleNavToAttendance = () => {
+    navigate(`/admin/attendance/${id}`);
+  }
+
+  const handleNavToKPI = () => {
+    navigate(`/admin/kpi/${id}`);
+  }
+
+  const handleNavToList = () => {
+    navigate("/admin");
+  }
+
+  if (loading) pageContent = <p>Loading user...</p>;
   else if (error) pageContent = <p>{error}</p>;
   else
     pageContent = (
@@ -31,12 +43,10 @@ const AdminUserPage = () => {
         <p>ID: {user._id}</p>
         <p>Role: {user.role}</p>
         <p>Email: {user.email}</p>
-        <p>
-          <Link to={`/admin/attendance/${user._id}`}>Attendance</Link>
-        </p>
-        <p>
-          <Link to={`/admin/kpi/${user._id}`}>KPI</Link>
-        </p>
+        <div className="mt-4 flex">
+          <button className="btn mr-6" onClick={handleNavToAttendance}>Attendance</button>
+          <button className="btn" onClick={handleNavToKPI}>KPI</button>
+        </div>
       </div>
     );
 
@@ -44,9 +54,9 @@ const AdminUserPage = () => {
     <div>
       <h1>Admin User Page</h1>
       {pageContent}
-      <p>
-        <Link to="/admin">Back to list</Link>
-      </p>
+      <div className="flex justify-end">
+        <button className="btn" onClick={handleNavToList}>Back to list</button>
+      </div>
     </div>
   );
 };

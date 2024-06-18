@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import EditingList from "../../../components/EditingList";
 import {
   getUserAttendance,
@@ -54,6 +54,14 @@ const AdminUserAttendancePage = () => {
     loadList();
   };
 
+  const handleNavToDashboard = () => {
+    navigate("/admin");
+  }
+
+  const handleNavToUser = () => {
+    navigate(`/admin/users/${id}`);
+  }
+
   let title;
   let userContent;
   let pageContent;
@@ -78,9 +86,9 @@ const AdminUserAttendancePage = () => {
     title = <h1>Error</h1>;
     pageContent = <p>{listError}</p>;
     backLink = (
-      <p>
-        <Link to="/admin">Back to dashboard</Link>
-      </p>
+      <div className="flex justify-end mt-6">
+        <button className="btn" onClick={handleNavToDashboard}>Back to dashboard</button>
+      </div>
     );
   } else {
     pageContent = (
@@ -93,9 +101,9 @@ const AdminUserAttendancePage = () => {
       />
     );
     backLink = (
-      <p>
-        <Link to={`/admin/users/${id}`}>Back to user</Link>
-      </p>
+      <div className="flex justify-end mt-6">
+        <button className="btn" onClick={handleNavToUser}>Back to user</button>
+      </div>
     );
   }
 

@@ -66,8 +66,8 @@ const AdminPage = () => {
       <button onClick={handleNewMeeting}>Create a new meeting...</button>
       <button onClick={handleNewTask}>Assign a new task...</button>
       {pageContent}
-      <div className="mt-5">
-        <button className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg"
+      <div className="mt-6 flex justify-end">
+        <button className="btn"
           onClick={handleLogout}>
           Log out
         </button>

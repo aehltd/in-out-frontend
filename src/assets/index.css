@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .btn {
+        @apply bg-green-500 hover:bg-green-600 disabled:bg-gray-100 disabled:text-gray-400 disabled:border text-white font-medium py-2 px-4 rounded-md items-center justify-center
+    }
+
+    .input-field {
+        @apply mt-1 px-3 py-2 block w-full placeholder-gray-400 text-gray-700 bg-white rounded-md text-sm shadow-sm border border-gray-400 focus:outline-none focus:ring-1 focus:invalid:border-pink-500 focus:invalid:ring-pink-500
+    }
+
+    .list {
+        @apply list-none text-left max-h-80 overflow-y-auto pr-4 rounded-lg
+    }
+
+    .list-item {
+        @apply bg-gray-200 first:mt-0 last:mb-0 mt-2 mb-2 p-3 rounded-lg
+    }
+}
