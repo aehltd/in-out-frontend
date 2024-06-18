@@ -34,3 +34,16 @@ export const getDefaultFieldValue = (field) => {
       return "";
   }
 };
+
+export const getFieldNames = (field) => {
+  switch (field) {
+    case "date":
+      return "Date";
+    case "isClockedIn":
+      return "Clocked In";
+    case "kpi":
+      return "KPI";
+    default:
+      return field;
+  }
+}

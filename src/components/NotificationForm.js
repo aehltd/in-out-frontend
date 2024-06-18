@@ -34,31 +34,46 @@ const NotificationForm = ({ onSubmit }) => {
             {loading && <p>Loading...</p>}
             {error && <p>{error.message}</p>}
             <form onSubmit={onItemSubmit}>
-                <div>
+                <div className="flex space-x-4 space-between mt-4 items-center">
                     <label>Type:</label>
-                    <select value={type} onChange={handleTypeChange}>
+                    <select className="input-field" value={type} onChange={handleTypeChange}>
                         <option value="task">Task</option>
                         <option value="meeting">Meeting</option>
                     </select>
                 </div>
-                <div>
+                <div className="flex space-x-4 justify-between mt-4 items-center">
                     <label>Date:</label>
-                    <input type="datetime-local" value={date} onChange={handleDateChange} required />
+                    <input className="input-field" type="datetime-local" value={date} onChange={handleDateChange} required />
                 </div>
-                <div>
+                <div className="flex space-x-4 justify-between mt-4 items-center">
                     <label>Title:</label>
-                    <input type="text" value={title} onChange={handleTitleChange} required/>
-                </div>
-                <div>
+                    <input className="input-field" 
+                        type="text" value={title} 
+                        onChange={handleTitleChange} 
+                        placeholder={type === "task" ? "New Task" : "New Meeting"}
+                        required/>
+                </div >
+                <div className="flex space-x-4 justify-between mt-4 items-center">
                     <label>Description:</label>
-                    <textarea value={description} onChange={handleDescriptionChange} rows={4} required></textarea>
+                    <textarea className="input-field" value={description} 
+                    onChange={handleDescriptionChange} 
+                    placeholder="Enter description here..."
+                    rows={4} required>
+                    </textarea>
                 </div>
-                <CheckboxDropdown
-                    users={users}
-                    selectedRecipients={recipients}
-                    setSelectedRecipients={handleRecipientsChange}
-                />
-                <button type="submit">Submit</button>
+                <div className="flex space-x-4 justify-between mt-4 items-center">
+                    <label>Recipients:</label>
+                    <CheckboxDropdown
+                        users={users}
+                        selectedRecipients={recipients}
+                        setSelectedRecipients={handleRecipientsChange}
+                    />
+                </div>
+                <div className="mt-6 flex justify-end">
+                    <button className="btn" type="submit">
+                        Submit
+                    </button>
+                </div>
             </form>
         </div>
     )

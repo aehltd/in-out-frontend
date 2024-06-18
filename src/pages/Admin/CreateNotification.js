@@ -11,7 +11,7 @@ const NewNotificationPage = () => {
 
     return (
         <div>
-            <h1>New Schedule Item</h1>
+            <span className="block text-lg font-bold mr-6">New Schedule Item</span>
             <NotificationForm onSubmit={handleSubmit}/>
         </div>
     )

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { addNotification } from "../api/notificationAPI"
 
 const useNotificationForm = () => {
-    const [type, setType] = useState('Task')
+    const [type, setType] = useState('task')
     const [date, setDate] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')

@@ -68,6 +68,7 @@ const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
   return (
     <div>
       <button onClick={handleAddClick}>Add</button>
+
       <Modal
         isOpen={openModal}
         type={modalType}
@@ -92,10 +93,10 @@ const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
           </div>
           <div className="flex space-x-2">
             <button className="btn text-black bg-transparent hover:bg-gray-400 px-2 py-2" onClick={() => handleEditClick(item)}>
-              <span class="material-icons-outlined">edit</span>
+              <span className="material-icons-outlined">edit</span>
             </button>
             <button className="btn text-black bg-transparent hover:bg-gray-400 px-2 py-2" onClick={() => handleDeleteClick(item)}>
-            <span class="material-icons-outlined">delete</span>
+              <span className="material-icons-outlined">delete</span>
             </button>
          </div>
          </div>
