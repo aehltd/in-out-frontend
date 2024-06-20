@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserList from "../../components/UserList";
 import useAllUserData from "../../hooks/useAllUserData";
 import { emptyCache } from "../../utils/cache";
+import Modal from "../../components/Modal";
+import NotificationForm from "../../components/NotificationForm";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -14,6 +16,8 @@ const AdminPage = () => {
   // States for user list
   const {users, loading, error} = useAllUserData();
   let pageContent;
+
+  const [openModal, setOpenModal] = useState(false);
 
   //Validators
   useEffect(() => {
@@ -28,7 +32,11 @@ const AdminPage = () => {
   // Handle new meeting
   const handleNewMeeting = () => {
     console.log("NEW MEETING");
-    navigate("/admin/new-notification");
+    setOpenModal(true);
+  }
+  const handleSubmit = (scheduleItem) => {
+    console.log("Hello");
+    navigate("/");
   }
 
   // Handle new task
@@ -58,6 +66,11 @@ const AdminPage = () => {
 
   return (
     <div>
+      <Modal isOpen={openModal}>
+        <span className="block text-lg font-bold mr-6">New Schedule Item</span>
+        <NotificationForm onSubmit={handleSubmit}/>
+      </Modal>
+
       <h1>Admin Page</h1>
       <div>
         <h2>Welcome, {name}!</h2>

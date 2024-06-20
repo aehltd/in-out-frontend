@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { clockIn, checkClockInStatus  } from "../api/attendanceAPI";
 
-const ClockInButton = ({onClick}) => {
+const ClockInButton = () => {
   const [isClockedIn, setIsClockedIn] = useState(true);
 
   // On render, determine if already clocked in
@@ -16,12 +16,17 @@ const ClockInButton = ({onClick}) => {
     checkClockIn();
   }, [])
 
-  const handleClick = () => {
-    setIsClockedIn(!isClockedIn);
+  const handleClick = async () => {
     console.log("Clocking in...");
-    clockIn();
-    onClick();
-    console.log("Clocked in!");
+    // Call clock in function
+    const clockedIn = await clockIn();
+    console.log("Clocked in? " + clockedIn);
+    if (clockedIn) {
+      console.log("Clocked in!");
+    } else {
+      console.log("Error clocking in!");
+    }
+    setIsClockedIn(clockedIn);
   }
 
   return (

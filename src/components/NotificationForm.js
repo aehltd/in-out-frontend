@@ -38,7 +38,7 @@ const NotificationForm = ({ onSubmit }) => {
                     <label>Type:</label>
                     <select className="input-field" value={type} onChange={handleTypeChange}>
                         <option value="task">Task</option>
-                        <option value="meeting">Meeting</option>
+                        <option value="event">Event</option>
                     </select>
                 </div>
                 <div className="flex space-x-4 justify-between mt-4 items-center">

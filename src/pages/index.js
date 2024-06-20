@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { emptyCache } from "../utils/cache";
+import ClockInButton from "../components/ClockInButton";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -30,9 +31,6 @@ const HomePage = () => {
     }
   })
 
-  let homeContent;
-  let accountNav; //links to login/register if no token, logout if token
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("name");
@@ -41,23 +39,21 @@ const HomePage = () => {
     navigate("/login");
   };
 
-  homeContent = (
-    <div>
-      <h2>Welcome, {name}!</h2>
-      <p><Link to="/attendance">My attendance</Link></p>
-    </div>
-  );
-  accountNav = (
-    <div>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
-  );
+  const handleNavToAttendance = () => {
+    navigate("/attendance");
+  }
 
   return (
     <div>
-      <h1>Home Page</h1>
-      {homeContent}
-      {accountNav}
+      <span className="block text-lg font-bold mr-6">Home Page</span>
+      <span className="block text-lg font-bold mr-6">Welcome, {name}!</span>
+      <div className="flex space-x-4">
+        <ClockInButton />
+        <button className="btn" onClick={handleNavToAttendance}>View My Attendance</button>
+      </div>
+      <div className="flex justify-end mt-6">
+        <button className="btn" onClick={handleLogout}>Log out</button>
+      </div>
     </div>
   );
 };

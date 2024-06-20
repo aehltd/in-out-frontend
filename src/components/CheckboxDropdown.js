@@ -31,7 +31,7 @@ const CheckboxDropdown = ({ users, selectedRecipients, setSelectedRecipients }) 
         type="button" 
         onClick={toggleDropdown}>
         {selectedRecipients.length} selected
-        <span class="material-icons-outlined">{isOpen ? 'arrow_drop_up' : 'arrow_drop_down'}</span>
+        <span className="material-icons-outlined">{isOpen ? 'arrow_drop_up' : 'arrow_drop_down'}</span>
       </button>
       {isOpen && (
         <ul className="absolute bg-white border border-gray-300 rounded-md shadow-lg max-h-32 overflow-y-auto focus:outline-none">

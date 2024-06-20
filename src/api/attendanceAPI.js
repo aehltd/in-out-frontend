@@ -137,8 +137,10 @@ async function clockIn() {
     } else {
       alert("You are late");
     }
+    return true;
   } else {
     alert(data.msg);
+    return false;
   }
 }
 

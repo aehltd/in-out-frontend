@@ -4,6 +4,7 @@ import {
   formatFieldValue,
   getDefaultFieldValue,
 } from "../utils/fieldFormatting";
+import GenericAddEditDelete from "./GenericAddEditDelete";
 
 const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -69,14 +70,15 @@ const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
     <div>
       <button onClick={handleAddClick}>Add</button>
 
-      <Modal
-        isOpen={openModal}
-        type={modalType}
-        initialData={selectedItem}
-        fields={fields}
-        onCancel={handleCloseModal}
-        onSubmit={modalFunction}
-      />
+      <Modal isOpen={openModal}>
+        <GenericAddEditDelete
+          type={modalType}
+          fields={fields}
+          onCancel={handleCloseModal}
+          onSubmit={modalFunction}
+          initialData={selectedItem}
+        />
+      </Modal>
 
       <ul className="list">
         {list.map((item) => (
