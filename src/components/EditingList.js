@@ -6,7 +6,7 @@ import {
 } from "../utils/fieldFormatting";
 import GenericAddEditDelete from "./GenericAddEditDelete";
 
-const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
+const EditingList = ({children, list, fields, onAdd, onEdit, onDelete }) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null); // [item]
   const [modalType, setModalType] = useState(null); // ['add', 'edit', 'delete']
@@ -68,7 +68,12 @@ const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
 
   return (
     <div>
-      <button onClick={handleAddClick}>Add</button>
+      <div className="flex justify-center items-center space-x-4 mb-12">
+        {children}
+        <button className="btn btn-icon hover:bg-gray-100" onClick={handleAddClick}>
+          <span className="material-icons-outlined">add</span>
+        </button>
+      </div>
 
       <Modal isOpen={openModal}>
         <GenericAddEditDelete
@@ -94,10 +99,10 @@ const EditingList = ({ list, fields, onAdd, onEdit, onDelete }) => {
             ))}
           </div>
           <div className="flex space-x-2">
-            <button className="btn text-black bg-transparent hover:bg-gray-400 px-2 py-2" onClick={() => handleEditClick(item)}>
+            <button className="btn btn-icon" onClick={() => handleEditClick(item)}>
               <span className="material-icons-outlined">edit</span>
             </button>
-            <button className="btn text-black bg-transparent hover:bg-gray-400 px-2 py-2" onClick={() => handleDeleteClick(item)}>
+            <button className="btn btn-icon" onClick={() => handleDeleteClick(item)}>
               <span className="material-icons-outlined">delete</span>
             </button>
          </div>

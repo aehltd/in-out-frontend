@@ -33,6 +33,22 @@ export const convertUTCtoLocal = (utcDateTime) => {
   return date.toISOString().slice(0, 16); // remove seconds and milliseconds
 };
 
+// Function to convert mongoDB UTC datetime string to our time zone, only YYYY-MM-DD
+export const convertUTCtoLocalDate = (utcDateTime) => {
+  const date = new Date(utcDateTime);
+  const offset = date.getTimezoneOffset();
+  date.setMinutes(date.getMinutes() - offset); // convert to local time
+  return date.toISOString().slice(0, 10); // remove time
+}
+
+// Function to convert mongoDB UTC datetime string to our time (HH:MM)
+export const convertUTCtoLocalTime = (utcDateTime) => {
+  const date = new Date(utcDateTime);
+  const offset = date.getTimezoneOffset();
+  date.setMinutes(date.getMinutes() - offset); // convert to local time
+  return date.toISOString().slice(11, 16); // remove date and seconds
+}
+
 // Function to convert local datetime string to mongoDB UTC time
 export const convertLocalToUTC = (localDateTime) => {
   const date = new Date(localDateTime);

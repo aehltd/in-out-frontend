@@ -19,7 +19,9 @@ const LoginPage = () => {
   };
 
   return (
-    <LoginForm onLogin={handleLogin} />
+    <div className="container max-w-md">
+      <LoginForm onLogin={handleLogin} />
+    </div>
   );
 };
 

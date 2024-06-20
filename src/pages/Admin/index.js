@@ -39,6 +39,9 @@ const AdminPage = () => {
     navigate("/");
   }
 
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
   // Handle new task
   const handleNewTask = () => {
     console.log("NEW TASK");
@@ -65,27 +68,27 @@ const AdminPage = () => {
   else pageContent = <UserList users={users} onUserClick={handleUserClick} />;
 
   return (
-    <div>
+    <>
       <Modal isOpen={openModal}>
         <span className="block text-lg font-bold mr-6">New Schedule Item</span>
-        <NotificationForm onSubmit={handleSubmit}/>
+        <NotificationForm onCancel={handleCloseModal} onSubmit={handleSubmit}/>
       </Modal>
-
-      <h1>Admin Page</h1>
-      <div>
-        <h2>Welcome, {name}!</h2>
+      <div className="container max-w-sm">
+        <h1>Admin Page</h1>
+        <div>
+          <h2>Welcome, {name}!</h2>
+        </div>
+        <h3>Actions</h3>
+        <button className="btn" onClick={handleNewMeeting}>Send out a new notification</button>
+        {pageContent}
+        <div className="mt-6 flex justify-start">
+          <button className="btn"
+            onClick={handleLogout}>
+              Log out
+          </button>
+        </div>
       </div>
-      <h3>Actions</h3>
-      <button onClick={handleNewMeeting}>Create a new meeting...</button>
-      <button onClick={handleNewTask}>Assign a new task...</button>
-      {pageContent}
-      <div className="mt-6 flex justify-end">
-        <button className="btn"
-          onClick={handleLogout}>
-          Log out
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 

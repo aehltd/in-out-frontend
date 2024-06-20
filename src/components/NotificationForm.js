@@ -3,7 +3,7 @@ import useAllUserData from "../hooks/useAllUserData";
 import useNotificationForm from "../hooks/useNotificationForm";
 import CheckboxDropdown from "./CheckboxDropdown";
 
-const NotificationForm = ({ onSubmit }) => {
+const NotificationForm = ({ onCancel, onSubmit }) => {
     const { users } = useAllUserData();
     const {
         type,
@@ -69,8 +69,11 @@ const NotificationForm = ({ onSubmit }) => {
                         setSelectedRecipients={handleRecipientsChange}
                     />
                 </div>
-                <div className="mt-6 flex justify-end">
-                    <button className="btn" type="submit">
+                <div className="mt-12 flex justify-end space-x-4">
+                    <button className="btn btn-secondary" type="button" onClick={onCancel}>
+                        Cancel
+                    </button>
+                    <button className="btn" type="submit" onClick={onSubmit}>
                         Submit
                     </button>
                 </div>

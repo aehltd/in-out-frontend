@@ -98,7 +98,7 @@ const AdminUserKPIPage = () => {
   }
 
   return (
-    <div>
+    <div className="container max-w-sm">
       {title}
       {userContent}
       {pageContent}

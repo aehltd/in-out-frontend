@@ -19,7 +19,9 @@ const RegisterPage = () => {
   };
 
   return (
-    <RegisterForm onRegister={handleRegister} />
+    <div className="container max-w-md">
+      <RegisterForm onRegister={handleRegister} />
+    </div>
   );
 };
 

@@ -9,6 +9,7 @@ import {
 } from "../../../api/attendanceAPI";
 import useUserData from "../../../hooks/useUserData";
 import useList from "../../../hooks/useList";
+import Calendar from "../../../components/Calendar";
 
 const AdminUserAttendancePage = () => {
   const { id } = useParams();
@@ -52,6 +53,7 @@ const AdminUserAttendancePage = () => {
     console.log(`Tried to delete item: ${item._id}`);
     console.table(await deleteAttendanceRecord(item._id));
     loadList();
+
   };
 
   const handleNavToDashboard = () => {
@@ -63,22 +65,17 @@ const AdminUserAttendancePage = () => {
   }
 
   let title;
-  let userContent;
   let pageContent;
   let backLink;
 
   if (userLoading) {
-    userContent = <p>Loading...</p>;
+    title = "Loading...";
   } else if (userError) {
-    userContent = <p>{userError}</p>;
+    title = userError;
   } else {
-    title = <h1>Attendance Record for {user.name}</h1>;
-    userContent = (
-      <div>
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-      </div>
-    );
+    title = <>
+      {user.name}'s <br /> Attendance Record
+    </>;
   }
 
   if (listLoading) pageContent = <p>Loading...</p>;
@@ -92,26 +89,31 @@ const AdminUserAttendancePage = () => {
     );
   } else {
     pageContent = (
-      <EditingList
-        list={list}
-        fields={{ date: "datetime-local", isClockedIn: "checkbox" }}
-        onAdd={handleAdd}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      <>
+        <EditingList
+          list={list}
+          fields={{ date: "datetime-local", isClockedIn: "checkbox" }}
+          onAdd={handleAdd}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        >
+          <span className="block text-3xl font-bold text-center">{title}</span>
+        </EditingList>
+        <Calendar list={list}/>
+      </>
     );
     backLink = (
-      <div className="flex justify-end mt-6">
+      <div className="flex justify-start mt-6">
         <button className="btn" onClick={handleNavToUser}>Back to user</button>
       </div>
     );
   }
 
   return (
-    <div>
-      {title}
-      {userContent}
-      {pageContent}
+    <div className="container max-w-2xl">
+      <div className="flex">
+        {pageContent}
+      </div>
       {backLink}
     </div>
   );

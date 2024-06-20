@@ -88,8 +88,8 @@ const GenericAddEditDelete = ({ type, fields, onCancel, onSubmit, initialData = 
         ) : (
           <div className="mt-6">Are you sure you want to delete this item?</div>
         )}
-        <div className="flex justify-between mt-6">
-          <button className="btn" onClick={onCancel}>Cancel</button>
+        <div className="flex justify-end space-x-4 mt-6">
+          <button className="btn btn-secondary" onClick={onCancel}>Cancel</button>
           <button className="btn" type="submit" onClick={handleSubmit}>                
             {button[type]}
           </button>

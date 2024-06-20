@@ -51,10 +51,10 @@ const AdminUserPage = () => {
     );
 
   return (
-    <div>
+    <div className="container max-w-sm">
       <h1>Admin User Page</h1>
       {pageContent}
-      <div className="flex justify-end">
+      <div className="mt-6 flex justify-start">
         <button className="btn" onClick={handleNavToList}>Back to list</button>
       </div>
     </div>

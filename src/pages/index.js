@@ -44,14 +44,14 @@ const HomePage = () => {
   }
 
   return (
-    <div>
+    <div className="container max-w-md">
       <span className="block text-lg font-bold mr-6">Home Page</span>
       <span className="block text-lg font-bold mr-6">Welcome, {name}!</span>
       <div className="flex space-x-4">
         <ClockInButton />
         <button className="btn" onClick={handleNavToAttendance}>View My Attendance</button>
       </div>
-      <div className="flex justify-end mt-6">
+      <div className="flex justify-start mt-6">
         <button className="btn" onClick={handleLogout}>Log out</button>
       </div>
     </div>

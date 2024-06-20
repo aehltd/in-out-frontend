@@ -20,7 +20,6 @@ const ClockInButton = () => {
     console.log("Clocking in...");
     // Call clock in function
     const clockedIn = await clockIn();
-    console.log("Clocked in? " + clockedIn);
     if (clockedIn) {
       console.log("Clocked in!");
     } else {
