@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { startOfMonth, endOfMonth, startOfWeek, isSameMonth, addMonths, addDays, format } from 'date-fns';
 import { convertUTCtoLocalTime, convertUTCtoLocalDate } from '../utils/dateFormatting';
 
-const Calendar = ({list}) => {
+const Calendar = ({list, onClick}) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const monthStart = startOfMonth(currentMonth);
@@ -17,38 +17,28 @@ const Calendar = ({list}) => {
     setCurrentMonth(prevMonth => addMonths(prevMonth, 1));
   };
 
+  const itemMap = useMemo(() => {
+    const map = {};
+    list.forEach(item => {
+      const localDate = convertUTCtoLocalDate(item.date);
+      map[localDate] = item;
+    });
+    console.table(map);
+    return map;
+  }, [list]);
+
   let days = [];
   let day = weekStart;
 
-  const isCurrentDay = (day) => {
-    const foundItem = list.find((item) => {
-        const localDate = convertUTCtoLocalDate(item.date);
-        if (format(day, 'yyyy-MM-dd') === localDate) { 
-            //return the item
-            return item;
-        }
-        return null;
-    });
-
-    if (foundItem) {
-        //Determine lateness
-        const localTime = convertUTCtoLocalTime(foundItem.date);
-        const time = localTime.split(':');
-        const hour = time[0];
-        const minute = time[1];
-
-        if (hour > 9 || (hour === 9 && minute > 45)) {
-            return 'late';
-        } else {
-            return 'present';
-        }
-    } else {
-        return 'absent';
-    }
-}
+  const itemRecord = (day) => {
+    const formattedDate = format(day, 'yyyy-MM-dd');
+    if (itemMap[formattedDate]) console.log("Day matches");
+    return itemMap[formattedDate] || null;
+  }
 
   const colorCurrentDay = (day, monthStart) => {
-    const dayStatus = isCurrentDay(day);
+    const record = itemRecord(day);
+    const dayStatus = statusCheck(record);
 
     if (!isSameMonth(day, monthStart)) {
         return 'bg-transparent text-gray-300'; // Non-current month styling
@@ -66,18 +56,52 @@ const Calendar = ({list}) => {
     }
   }
 
+  const statusCheck = (record) => {
+    if (record) {
+      //Determine lateness
+      const localTime = convertUTCtoLocalTime(record.date);
+      const time = localTime.split(':');
+      const hour = time[0];
+      const minute = time[1];
+
+      if (hour > 9 || (hour === 9 && minute > 45)) {
+          return 'late';
+      } else {
+          return 'present';
+      }
+    } else {
+        return 'absent';
+    }
+  }
+
+  const handleItemClick = (day) => {
+    console.log(format(day, 'yyyy-MM-dd'));
+    const record = itemRecord(day);
+      if (record) {
+        console.log("I can edit or delete this item!");
+      } else {
+        console.log("I can add an item!");
+      }
+  }
+
   ///Takes in list of records -> If list item .date corresponds to current day, color that day green
   while (day <= monthEnd) {
     let weekDays = [];
     for (let j = 0; j < 7; j++) {
+
+      const currentDay = day;
+
       weekDays.push(
-        <td key={day} className="text-center align-middle">
-          <div className={`inline-block pt-1 w-8 h-8 m-auto rounded-md ${colorCurrentDay(day, monthStart)}`}>
-            {format(day, 'd')}
+        <td key={currentDay} className="text-center align-middle">
+          <div 
+            className={`inline-block pt-1 w-8 h-8 m-auto rounded-md ${colorCurrentDay(day, monthStart)}`}
+            onClick={() => handleItemClick(currentDay)}
+          >
+            {format(currentDay, 'd')}
           </div>
         </td>
       );
-      day = addDays(day, 1); // Move to the next day
+      day = addDays(currentDay, 1); // Move to the next day
     }
     days.push(
     <tr key={day}>

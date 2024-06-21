@@ -4,7 +4,7 @@
 
 @layer components {
     .btn {
-        @apply bg-green-500 hover:bg-green-600 disabled:bg-gray-100 disabled:text-gray-400 disabled:border text-white font-medium py-2 px-4 rounded-md items-center justify-center
+        @apply bg-green-500 hover:bg-green-600 disabled:bg-gray-100 disabled:text-gray-400 disabled:border text-white font-medium py-2 px-4 m-2 rounded-md items-center justify-center
     }
 
     .btn-secondary {
@@ -12,7 +12,7 @@
     }
 
     .btn-icon {
-        @apply text-black bg-transparent hover:bg-gray-300 px-2 py-2 items-center justify-center
+        @apply text-black bg-transparent hover:bg-gray-300 px-2 pt-2 items-center justify-center
     }
 
     .input-field {

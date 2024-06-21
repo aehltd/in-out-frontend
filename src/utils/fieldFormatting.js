@@ -19,10 +19,10 @@ export const formatFieldValue = (field, value) => {
   }
 };
 
-export const getDefaultFieldValue = (field) => {
+export const getDefaultFieldValue = (field, date = null) => {
   switch (field) {
     case "datetime-local":
-      return convertLocalToUTC(getDefaultDateTime());
+      return convertLocalToUTC(getDefaultDateTime(date));
     case "date":
       return convertLocalToUTC(getCurrentDate());
     case "checkbox":

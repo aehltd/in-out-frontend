@@ -1,90 +1,17 @@
-import React, { useEffect, useState } from "react";
-import Modal from "./Modal";
+import React, { useEffect } from "react";
 import {
-  formatFieldValue,
-  getDefaultFieldValue,
+  formatFieldValue
 } from "../utils/fieldFormatting";
-import GenericAddEditDelete from "./GenericAddEditDelete";
 
-const EditingList = ({children, list, fields, onAdd, onEdit, onDelete }) => {
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null); // [item]
-  const [modalType, setModalType] = useState(null); // ['add', 'edit', 'delete']
-  const [modalFunction, setModalFunction] = useState(null); // [onAdd, onEdit, onDelete]
+const EditingList = ({list, fields, onClick }) => {
 
   useEffect(() => {
     console.log("list loaded");
     console.table(list);
   }, [list]);
 
-  const handleDeleteClick = (item) => {
-    setModalType("delete");
-    console.log("selected item:");
-    console.table(item);
-    setSelectedItem(item);
-    setModalFunction(() => () => handleConfirmDelete(item));
-    setOpenModal(true);
-  };
-  
-  const handleConfirmDelete = (item) => {
-    if (item) {
-      onDelete(item);
-    }
-    handleCloseModal();
-  };
-
-  const handleAddClick = () => {
-    setModalType("add");
-    const newItem = {};
-    Object.keys(fields).forEach((field) => {
-      newItem[field] = getDefaultFieldValue(fields[field]);
-      console.log(`field: ${field}, value: ${newItem[field]}`);
-    });
-    setSelectedItem(newItem);
-    setModalFunction(() => handleConfirmAdd);
-    setOpenModal(true);
-  };
-  const handleConfirmAdd = (newItem) => {
-    onAdd(newItem);
-    handleCloseModal();
-  };
-
-  const handleEditClick = (item) => {
-    setModalType("edit");
-    console.log("selected item:");
-    console.table(item);
-    setSelectedItem(item);
-    setModalFunction(() => handleConfirmEdit);
-    setOpenModal(true);
-  };
-  const handleConfirmEdit = (newItem) => {
-    onEdit(newItem);
-    handleCloseModal();
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-
   return (
     <div>
-      <div className="flex justify-center items-center space-x-4 mb-12">
-        {children}
-        <button className="btn btn-icon hover:bg-gray-100" onClick={handleAddClick}>
-          <span className="material-icons-outlined">add</span>
-        </button>
-      </div>
-
-      <Modal isOpen={openModal}>
-        <GenericAddEditDelete
-          type={modalType}
-          fields={fields}
-          onCancel={handleCloseModal}
-          onSubmit={modalFunction}
-          initialData={selectedItem}
-        />
-      </Modal>
-
       <ul className="list">
         {list.map((item) => (
         <li className="list-item" key={item._id}>
@@ -99,11 +26,11 @@ const EditingList = ({children, list, fields, onAdd, onEdit, onDelete }) => {
             ))}
           </div>
           <div className="flex space-x-2">
-            <button className="btn btn-icon" onClick={() => handleEditClick(item)}>
-              <span className="material-icons-outlined">edit</span>
+            <button className="btn btn-icon" onClick={() => onClick('edit', item)}>
+              <span className="material-icons-outlined align-middle">edit</span>
             </button>
-            <button className="btn btn-icon" onClick={() => handleDeleteClick(item)}>
-              <span className="material-icons-outlined">delete</span>
+            <button className="btn btn-icon" onClick={() => onClick('delete', item)}>
+              <span className="material-icons-outlined align-middle">delete</span>
             </button>
          </div>
          </div>

@@ -21,8 +21,11 @@ export const getDefaultTime = () => {
 };
 
 // Function combining current date and default time
-export const getDefaultDateTime = () => {
-  return `${getCurrentDate()}T${getDefaultTime()}`;
+export const getDefaultDateTime = (date = null) => {
+  if (date) {
+    return `${date}T${getDefaultTime()}`;
+  }
+  else return `${getCurrentDate()}T${getDefaultTime()}`;
 };
 
 // Function to convert mongoDB UTC datetime string to our time zone

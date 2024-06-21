@@ -10,6 +10,9 @@ import {
 import useUserData from "../../../hooks/useUserData";
 import useList from "../../../hooks/useList";
 import Calendar from "../../../components/Calendar";
+import Modal from "../../../components/Modal";
+import useModal from "../../../hooks/useModal";
+import GenericAddEditDelete from "../../../components/GenericAddEditDelete";
 
 const AdminUserAttendancePage = () => {
   const { id } = useParams();
@@ -35,26 +38,42 @@ const AdminUserAttendancePage = () => {
     error: listError,
     loadList,
   } = useList(id, getUserAttendance);
+  const {
+    openModal,
+    selectedItem,
+    modalType,
+    openModalWithType,
+    handleModalClose,
+    createDefaultItem
+  } = useModal();
 
-  //handle adding a new attendance
-  const handleAdd = async (newItem) => {
-    console.log("Tried to add new item.");
-    console.table(await addAttendanceRecord(id, newItem));
-    loadList();
-  };
-  //handle editing an attendance
-  const handleEdit = async (newItem) => {
-    console.log(`Tried to edit item: ${newItem._id}`);
-    console.table(await editAttendanceRecord(newItem));
-    loadList();
-  };
-  //handle deleting an attendance
-  const handleDelete = async (item) => {
-    console.log(`Tried to delete item: ${item._id}`);
-    console.table(await deleteAttendanceRecord(item._id));
-    loadList();
+  const attendanceFields = { date: "datetime-local", isClockedIn: "checkbox" };
+  
+  //handle editing/add/delete clicks
+  const handleClick = (type, item) => {
+    console.log("Tried to open modal.");
+    console.log("Type: ", type);
+    console.log("Item: ", item);
+    openModalWithType(type, item);
+  }
 
-  };
+  //handle submitting the modal
+  const handleModalSubmit = async (type, item) => {
+    try {
+      if (type === "add") {
+        await addAttendanceRecord(id, item);
+      } else if (type === "edit") {
+        await editAttendanceRecord(item);
+      } else if (type === "delete") {
+        await deleteAttendanceRecord(item._id);
+      }
+      await loadList(); 
+    } catch (error) {
+      console.error("Error handling modal submit: ", error);
+    } finally {
+      handleModalClose();
+    }
+  }
 
   const handleNavToDashboard = () => {
     navigate("/admin");
@@ -90,16 +109,36 @@ const AdminUserAttendancePage = () => {
   } else {
     pageContent = (
       <>
-        <EditingList
+        <Modal isOpen={openModal} size='sm'>
+          <GenericAddEditDelete
+            type={modalType}
+            fields={attendanceFields}
+            onCancel={handleModalClose}
+            onSubmit={handleModalSubmit}
+            initialData={selectedItem}
+          />
+        </Modal>
+        <div>
+          <div className="flex justify-end mt-6">
+            <button className="btn btn-icon hover:bg-gray-100" 
+              onClick={() =>
+                handleClick("add", createDefaultItem(attendanceFields))
+              }>
+              <span className="material-icons-outlined align-middle">add</span>
+            </button>
+          </div>
+          <EditingList
+            list={list}
+            fields={attendanceFields}
+            onClick={handleClick}
+          />
+        </div>
+
+        <Calendar 
           list={list}
-          fields={{ date: "datetime-local", isClockedIn: "checkbox" }}
-          onAdd={handleAdd}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        >
-          <span className="block text-3xl font-bold text-center">{title}</span>
-        </EditingList>
-        <Calendar list={list}/>
+          fields={attendanceFields}
+          onClick={handleClick}
+        />
       </>
     );
     backLink = (
@@ -107,11 +146,14 @@ const AdminUserAttendancePage = () => {
         <button className="btn" onClick={handleNavToUser}>Back to user</button>
       </div>
     );
-  }
+  };
 
   return (
-    <div className="container max-w-2xl">
-      <div className="flex">
+    <div className="container max-w-lg">
+      <div>
+        <div className="flex justify-center items-center">
+        <span className="block text-3xl font-bold text-center">{title}</span>
+        </div>
         {pageContent}
       </div>
       {backLink}

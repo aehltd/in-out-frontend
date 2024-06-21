@@ -37,11 +37,8 @@ const GenericAddEditDelete = ({ type, fields, onCancel, onSubmit, initialData = 
   };
 
   const handleSubmit = (e) => {
-    if (type === "delete") {
-      onSubmit(initialData);
-    } else {
-      onSubmit(formData);
-    }
+    e.preventDefault();
+    onSubmit(type, formData);
   };
 
   const content = {
