@@ -12,6 +12,14 @@ const EditingList = ({list, fields, onClick }) => {
 
   return (
     <div>
+      <div className="flex justify-end mt-6">
+            <button className="btn btn-icon" 
+              onClick={() =>
+                onClick("add")
+              }>
+              <span className="material-icons-outlined align-middle">add</span>
+            </button>
+          </div>
       <ul className="list">
         {list.map((item) => (
         <li className="list-item" key={item._id}>
@@ -26,10 +34,10 @@ const EditingList = ({list, fields, onClick }) => {
             ))}
           </div>
           <div className="flex space-x-2">
-            <button className="btn btn-icon" onClick={() => onClick('edit', item)}>
+            <button className="btn btn-icon hover:bg-gray-300" onClick={() => onClick('edit', item)}>
               <span className="material-icons-outlined align-middle">edit</span>
             </button>
-            <button className="btn btn-icon" onClick={() => onClick('delete', item)}>
+            <button className="btn btn-icon hover:bg-gray-300" onClick={() => onClick('delete', item)}>
               <span className="material-icons-outlined align-middle">delete</span>
             </button>
          </div>

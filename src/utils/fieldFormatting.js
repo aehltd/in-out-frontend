@@ -25,8 +25,10 @@ export const getDefaultFieldValue = (field, date = null) => {
       return convertLocalToUTC(getDefaultDateTime(date));
     case "date":
       return convertLocalToUTC(getCurrentDate());
+    case "time":
+      return "09:30";
     case "checkbox":
-      return true;
+      return false;
     case "number":
       return 0;
     default:

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import EditingList from "../../../components/EditingList";
 import {
@@ -13,6 +13,7 @@ import Calendar from "../../../components/Calendar";
 import Modal from "../../../components/Modal";
 import useModal from "../../../hooks/useModal";
 import GenericAddEditDelete from "../../../components/GenericAddEditDelete";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 const AdminUserAttendancePage = () => {
   const { id } = useParams();
@@ -47,10 +48,17 @@ const AdminUserAttendancePage = () => {
     createDefaultItem
   } = useModal();
 
+  const [mode, setMode] = useState("calendar"); // ["list", "calendar"]
+
   const attendanceFields = { date: "datetime-local", isClockedIn: "checkbox" };
   
   //handle editing/add/delete clicks
-  const handleClick = (type, item) => {
+  const handleClick = (type = null, item = null) => {
+    if (type === null) {
+      console.log("Type is null, returning.");
+      return;
+    }
+    if (item === null) item = createDefaultItem(attendanceFields)
     console.log("Tried to open modal.");
     console.log("Type: ", type);
     console.log("Item: ", item);
@@ -75,12 +83,26 @@ const AdminUserAttendancePage = () => {
     }
   }
 
+  const handleModeChange = (newMode) => {
+    setMode(newMode);
+  }
+
   const handleNavToDashboard = () => {
     navigate("/admin");
   }
 
   const handleNavToUser = () => {
     navigate(`/admin/users/${id}`);
+  }
+
+  const amIDisabled = (type) => {
+    if (mode === "list") {
+      if (type === "list") return true;
+    } else if (mode === "calendar") {
+      if (type === "calendar") return true;
+    } else {
+      return false;
+    }
   }
 
   let title;
@@ -97,7 +119,7 @@ const AdminUserAttendancePage = () => {
     </>;
   }
 
-  if (listLoading) pageContent = <p>Loading...</p>;
+  if (listLoading) pageContent = <LoadingSpinner/>;
   else if (listError) {
     title = <h1>Error</h1>;
     pageContent = <p>{listError}</p>;
@@ -118,38 +140,39 @@ const AdminUserAttendancePage = () => {
             initialData={selectedItem}
           />
         </Modal>
-        <div>
-          <div className="flex justify-end mt-6">
-            <button className="btn btn-icon hover:bg-gray-100" 
-              onClick={() =>
-                handleClick("add", createDefaultItem(attendanceFields))
-              }>
-              <span className="material-icons-outlined align-middle">add</span>
-            </button>
-          </div>
+        {mode === "list" && (
           <EditingList
             list={list}
             fields={attendanceFields}
             onClick={handleClick}
           />
-        </div>
-
-        <Calendar 
-          list={list}
-          fields={attendanceFields}
-          onClick={handleClick}
-        />
+        )}
+        {mode === "calendar" && (
+          <Calendar 
+            list={list}
+            fields={attendanceFields}
+            onClick={handleClick}
+          />
+        )}
       </>
     );
     backLink = (
-      <div className="flex justify-start mt-6">
+      <div className="flex justify-between mt-6">
         <button className="btn" onClick={handleNavToUser}>Back to user</button>
+        <div className="flex">
+          <button className="btn btn-icon" disabled={amIDisabled("list")} onClick={() => handleModeChange("list")}>
+            <span class="material-icons-outlined align-middle">reorder</span>
+          </button>
+          <button className="btn btn-icon" disabled={amIDisabled("calendar")} onClick={() => handleModeChange("calendar")}>
+            <span class="material-icons-outlined align-middle">calendar_today</span>
+          </button>
+        </div>
       </div>
     );
   };
 
   return (
-    <div className="container max-w-lg">
+    <div className="container max-w-md">
       <div>
         <div className="flex justify-center items-center">
         <span className="block text-3xl font-bold text-center">{title}</span>
