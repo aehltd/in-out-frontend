@@ -50,14 +50,14 @@ const UserAttendancePage = () => {
           disabled={amIDisabled("list")}
           onClick={() => handleModeChange("list")}
         >
-          <span class="material-icons-outlined align-middle">reorder</span>
+          <span className="material-icons-outlined align-middle">reorder</span>
         </button>
         <button
           className="btn btn-icon"
           disabled={amIDisabled("calendar")}
           onClick={() => handleModeChange("calendar")}
         >
-          <span class="material-icons-outlined align-middle">
+          <span className="material-icons-outlined align-middle">
             calendar_today
           </span>
         </button>

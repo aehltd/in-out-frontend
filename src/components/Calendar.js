@@ -43,21 +43,9 @@ const Calendar = ({ list, onClick = null }) => {
     list.forEach((item) => {
       const localDate = convertUTCtoLocalDate(item.date);
 
-      const localTime = convertUTCtoLocalTime(item.date);
-      const time = localTime.split(":");
-      const hour = time[0];
-      const minute = time[1];
-
-      let status = "present";
-      if (hour > 9 || (hour === 9 && minute > 45)) {
-        status = "late";
-      }
-
-      map[localDate] = {
-        record: item,
-        status: status,
-      };
+      map[localDate] = item;
     });
+
     console.table(map);
     return map;
   }, [list]);
@@ -73,14 +61,14 @@ const Calendar = ({ list, onClick = null }) => {
 
   const colorCurrentDay = useCallback(
     (day, monthStart) => {
-      const dayItem = itemRecord(day);
+      const item = itemRecord(day);
 
       if (!isSameMonth(day, monthStart)) {
         return "bg-transparent text-gray-300 hover:bg-gray-50"; // Non-current month styling
-      } else if (dayItem) {
-        if (dayItem.status === "late") {
+      } else if (item) {
+        if (item.isLate) {
           return "bg-yellow-300 text-gray-700 hover:bg-yellow-500"; // Yellow background for late days
-        } else if (dayItem.status === "present") {
+        } else {
           return "bg-green-500 text-white hover:bg-green-600"; // Green background for present days
         }
       } else {
@@ -105,14 +93,11 @@ const Calendar = ({ list, onClick = null }) => {
         const newDate = new Date(defaultDateTime);
         console.log(newDate);
         item = {
-          record: {
-            date: newDate.toISOString(),
-            isClockedIn: getDefaultFieldValue("checkbox"),
-          },
-          status: "absent",
+          date: newDate.toISOString(),
+          isClockedIn: getDefaultFieldValue("checkbox"),
         };
       }
-      openMenuWithItem(item.record, event);
+      openMenuWithItem(item, event);
     },
     [onClick, itemRecord, openMenuWithItem]
   );
@@ -170,13 +155,13 @@ const Calendar = ({ list, onClick = null }) => {
       <div className="max-w-full flex-grow flex flex-col justify-center">
         <div className="flex justify-between mb-4">
           <button className="btn btn-icon" onClick={handlePrevMonth}>
-            <span class="material-icons-outlined align-middle">arrow_back</span>
+            <span className="material-icons-outlined align-middle">arrow_back</span>
           </button>
           <span className="flex text-2xl font-bold text-center items-center">
             {format(currentMonth, "MMMM yyyy")}
           </span>
           <button className="btn btn-icon" onClick={handleNextMonth}>
-            <span class="material-icons-outlined align-middle">
+            <span className="material-icons-outlined align-middle">
               arrow_forward
             </span>
           </button>

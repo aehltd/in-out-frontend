@@ -125,6 +125,27 @@ const AdminUserAttendancePage = () => {
             initialData={selectedItem}
           />
         </Modal>
+        <div className="w-full flex items-center justify-evenly">
+          {/* <span>
+            Days late: 
+            <span className="font-bold">
+              {list.filter((item) => item.isLate).length}
+            </span>
+          </span> */}
+          <span>
+            Days Clocked In: <span className="font-bold">{list.length}</span>
+          </span>
+          <span>
+            Late Percent:{"  "}
+            <span className="font-bold">
+              {(
+                (list.filter((item) => item.isLate).length / list.length) *
+                100
+              ).toFixed(2)}
+              %
+            </span>
+          </span>
+        </div>
         {mode === "list" && (
           <GenericList
             list={list}
@@ -152,14 +173,16 @@ const AdminUserAttendancePage = () => {
             disabled={amIDisabled("list")}
             onClick={() => handleModeChange("list")}
           >
-            <span class="material-icons-outlined align-middle">reorder</span>
+            <span className="material-icons-outlined align-middle">
+              reorder
+            </span>
           </button>
           <button
             className="btn btn-icon"
             disabled={amIDisabled("calendar")}
             onClick={() => handleModeChange("calendar")}
           >
-            <span class="material-icons-outlined align-middle">
+            <span className="material-icons-outlined align-middle">
               calendar_today
             </span>
           </button>
