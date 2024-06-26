@@ -1,59 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { fetchUser } from '../../../api/userAPI';
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import useUserData from "../../../hooks/useUserData";
 
 const AdminUserPage = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+  // Validators
+  useEffect(() => {
+    if (!token) navigate("/login");
+  }, [token, navigate]);
+  useEffect(() => {
+    if (role !== "admin") navigate("/access-denied");
+  }, [role, navigate]);
 
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
+  const { user, loading, error } = useUserData(id);
+  let pageContent;
 
-    const [user, setUser] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    let pageContent;
-    
-    // Validators
-    useEffect(() => {if (!token) navigate('/login')}, [token, navigate]);
-    useEffect(() => {if (role !== 'admin') navigate('/access-denied');}, [role, navigate]);
+  const handleNavToAttendance = () => {
+    navigate(`/admin/attendance/${id}`);
+  };
 
-    // get User from ID
-    useEffect(() => {
-        const fetchUserByID = async () => {
-            try {
-                const data = await fetchUser(token, id);
-                setUser(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+  const handleNavToKPI = () => {
+    navigate(`/admin/kpi/${id}`);
+  };
 
-        fetchUserByID();
-    }, [token, id]);
+  const handleNavToList = () => {
+    navigate("/admin");
+  };
 
-    if (loading) pageContent = <p>Loading...</p>;
-    else if (error) pageContent = <p>{error}</p>;
-    else pageContent = (
-        <div>
-            <h1>{user.name}</h1>
-            <p>ID: {user._id}</p>
-            <p>Role: {user.role}</p>
-            <p>Email: {user.email}</p>
-            <p><Link to={`/admin/attendance/${user._id}`}>Attendance</Link></p>
-            <p><Link to={`/admin/kpi/${user._id}`}>KPI</Link></p>
+  if (loading) pageContent = <p>Loading user...</p>;
+  else if (error) pageContent = <p>{error}</p>;
+  else
+    pageContent = (
+      <div>
+        <h1>{user.name}</h1>
+        <p>ID: {user._id}</p>
+        <p>Role: {user.role}</p>
+        <p>Email: {user.email}</p>
+        <div className="mt-4 flex">
+          <button className="btn mr-6" onClick={handleNavToAttendance}>
+            Attendance
+          </button>
+          <button className="btn" onClick={handleNavToKPI}>
+            KPI
+          </button>
         </div>
-    )
-
-    return (
-        <div>
-            <h1>Admin User Page</h1>
-            {pageContent}
-            <p><Link to="/admin">Back to list</Link></p>
-        </div>
+      </div>
     );
-}
+
+  return (
+    <div className="container max-w-sm">
+      <h1>Admin User Page</h1>
+      {pageContent}
+      <div className="mt-6 flex justify-start">
+        <button className="btn" onClick={handleNavToList}>
+          Back to list
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default AdminUserPage;
