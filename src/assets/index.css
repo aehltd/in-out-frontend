@@ -20,11 +20,11 @@
     }
 
     .list {
-        @apply list-none text-left max-h-[382px] overflow-y-auto rounded-lg
+        @apply list-none text-left max-h-96 overflow-y-auto rounded-lg
     }
 
     .list-item {
-        @apply bg-gray-200 first:mt-0 last:mb-0 mt-2 mb-2 p-3 rounded-lg
+        @apply bg-gray-200 first:mt-0 last:mb-0 my-2 p-2 rounded-lg
     }
 
     .container {

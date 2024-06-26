@@ -9,11 +9,11 @@ const useList = (id = null, getListContents) => {
     console.log("loading list from API");
     setLoading(true);
     try {
-      const attendanceData = 
+      const data = 
         id ? await getListContents(id)
         : await getListContents();
 
-      setList(attendanceData);
+      setList(data);
     } catch (err) {
       setError(err.message);
       console.log(err);

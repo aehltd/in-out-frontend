@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import EditingList from "../../../components/EditingList";
+import GenericList from "../../../components/GenericList";
 import {
   getUserKPI,
   addKPIRecord,
@@ -82,7 +82,7 @@ const AdminUserKPIPage = () => {
     );
   } else {
     pageContent = (
-      <EditingList
+      <GenericList
         list={list}
         fields={{ date: "date", kpi: "number" }}
         onAdd={handleAdd}

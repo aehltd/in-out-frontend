@@ -69,7 +69,7 @@ const AdminPage = () => {
 
   return (
     <>
-      <Modal isOpen={openModal} size='lg'>
+      <Modal isOpen={openModal} size='md'>
         <span className="block text-lg font-bold mr-6">New Schedule Item</span>
         <NotificationForm onCancel={handleCloseModal} onSubmit={handleSubmit}/>
       </Modal>

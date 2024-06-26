@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import EditingList from "../../../components/EditingList";
+import GenericList from "../../../components/GenericList";
 import {
   getUserAttendance,
   addAttendanceRecord,
@@ -14,6 +14,7 @@ import Modal from "../../../components/Modal";
 import useModal from "../../../hooks/useModal";
 import GenericAddEditDelete from "../../../components/GenericAddEditDelete";
 import LoadingSpinner from "../../../components/LoadingSpinner";
+import useMode from "../../../hooks/useMode";
 
 const AdminUserAttendancePage = () => {
   const { id } = useParams();
@@ -47,9 +48,11 @@ const AdminUserAttendancePage = () => {
     handleModalClose,
     createDefaultItem
   } = useModal();
-
-  const [mode, setMode] = useState("calendar"); // ["list", "calendar"]
-
+  const {
+    mode,
+    handleModeChange,
+    amIDisabled,
+  } = useMode('calendar');
   const attendanceFields = { date: "datetime-local", isClockedIn: "checkbox" };
   
   //handle editing/add/delete clicks
@@ -83,10 +86,6 @@ const AdminUserAttendancePage = () => {
     }
   }
 
-  const handleModeChange = (newMode) => {
-    setMode(newMode);
-  }
-
   const handleNavToDashboard = () => {
     navigate("/admin");
   }
@@ -95,15 +94,6 @@ const AdminUserAttendancePage = () => {
     navigate(`/admin/users/${id}`);
   }
 
-  const amIDisabled = (type) => {
-    if (mode === "list") {
-      if (type === "list") return true;
-    } else if (mode === "calendar") {
-      if (type === "calendar") return true;
-    } else {
-      return false;
-    }
-  }
 
   let title;
   let pageContent;
@@ -141,7 +131,7 @@ const AdminUserAttendancePage = () => {
           />
         </Modal>
         {mode === "list" && (
-          <EditingList
+          <GenericList
             list={list}
             fields={attendanceFields}
             onClick={handleClick}
@@ -175,7 +165,7 @@ const AdminUserAttendancePage = () => {
     <div className="container max-w-md">
       <div>
         <div className="flex justify-center items-center">
-        <span className="block text-3xl font-bold text-center">{title}</span>
+        <span className="block text-3xl font-bold text-center mb-4">{title}</span>
         </div>
         {pageContent}
       </div>

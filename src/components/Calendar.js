@@ -5,7 +5,7 @@ import useMenu from '../hooks/useMenu';
 import Menu from './Menu';
 import { getDefaultFieldValue } from '../utils/fieldFormatting';
 
-const Calendar = ({list, onClick}) => {
+const Calendar = ({list, onClick = null}) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const {
@@ -74,6 +74,8 @@ const Calendar = ({list, onClick}) => {
   }, [itemRecord]);
 
   const handleItemClick = useCallback((day, event) => {
+    if (!onClick) return;
+
     console.log(day);
 
     let item = itemRecord(day);
@@ -93,7 +95,7 @@ const Calendar = ({list, onClick}) => {
       };
     }
     openMenuWithItem(item.record, event);
-  }, [itemRecord, openMenuWithItem]);
+  }, [onClick, itemRecord, openMenuWithItem]);
 
   const calendar = useMemo(() => {
     console.log("Generating calendar");
@@ -142,7 +144,7 @@ const Calendar = ({list, onClick}) => {
 
   return (
     <>
-    <div className="mt-4 max-w-full flex-grow flex flex-col justify-center">
+    <div className="max-w-full flex-grow flex flex-col justify-center">
       <div className="flex justify-between mb-4">
         <button className="btn btn-icon" onClick={handlePrevMonth}>
         <span class="material-icons-outlined align-middle">arrow_back</span>
@@ -154,7 +156,7 @@ const Calendar = ({list, onClick}) => {
           
         </button>
       </div>
-      <table className="table-auto w-full ">
+      <table className="table-auto w-full h-96">
         <thead>
           <tr className="bg-gray-100">
             <th className="py-2 rounded-tl-lg">Sun</th>
