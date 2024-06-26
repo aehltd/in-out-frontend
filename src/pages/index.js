@@ -21,15 +21,16 @@ const HomePage = () => {
     if (!token) {
       navigate("/login");
     } else {
-      const tokenParts = token.split('.')[1];
+      const tokenParts = token.split(".")[1];
       const decodedToken = JSON.parse(atob(tokenParts));
       const exp = decodedToken.exp * 1000; // Convert to milliseconds
       const now = Date.now();
-      if (now > exp) { // Token has expired
+      if (now > exp) {
+        // Token has expired
         navigate("/login");
       }
     }
-  })
+  });
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -41,7 +42,7 @@ const HomePage = () => {
 
   const handleNavToAttendance = () => {
     navigate("/attendance");
-  }
+  };
 
   return (
     <div className="container max-w-md">
@@ -49,10 +50,14 @@ const HomePage = () => {
       <span className="block text-lg font-bold mr-6">Welcome, {name}!</span>
       <div className="flex space-x-4">
         <ClockInButton />
-        <button className="btn" onClick={handleNavToAttendance}>View My Attendance</button>
+        <button className="btn" onClick={handleNavToAttendance}>
+          View My Attendance
+        </button>
       </div>
       <div className="flex justify-start mt-6">
-        <button className="btn" onClick={handleLogout}>Log out</button>
+        <button className="btn" onClick={handleLogout}>
+          Log out
+        </button>
       </div>
     </div>
   );

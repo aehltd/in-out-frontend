@@ -24,8 +24,7 @@ export const getDefaultTime = () => {
 export const getDefaultDateTime = (date = null) => {
   if (date) {
     return `${date}T${getDefaultTime()}`;
-  }
-  else return `${getCurrentDate()}T${getDefaultTime()}`;
+  } else return `${getCurrentDate()}T${getDefaultTime()}`;
 };
 
 // Function to convert mongoDB UTC datetime string to our time zone
@@ -42,7 +41,7 @@ export const convertUTCtoLocalDate = (utcDateTime) => {
   const offset = date.getTimezoneOffset();
   date.setMinutes(date.getMinutes() - offset); // convert to local time
   return date.toISOString().slice(0, 10); // remove time
-}
+};
 
 // Function to convert mongoDB UTC datetime string to our time (HH:MM)
 export const convertUTCtoLocalTime = (utcDateTime) => {
@@ -50,7 +49,7 @@ export const convertUTCtoLocalTime = (utcDateTime) => {
   const offset = date.getTimezoneOffset();
   date.setMinutes(date.getMinutes() - offset); // convert to local time
   return date.toISOString().slice(11, 16); // remove date and seconds
-}
+};
 
 // Function to convert local datetime string to mongoDB UTC time
 export const convertLocalToUTC = (localDateTime) => {

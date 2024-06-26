@@ -6,7 +6,11 @@ const UserList = ({ users, onUserClick }) => {
       <p className="text-xl font-bold">All users</p>
       <ul className="list">
         {users.map((user) => (
-          <li className="list-item" key={user._id} onClick={() => onUserClick(user)}>
+          <li
+            className="list-item"
+            key={user._id}
+            onClick={() => onUserClick(user)}
+          >
             {user.name} ({user.email})
           </li>
         ))}

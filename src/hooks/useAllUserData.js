@@ -3,11 +3,11 @@ import { setCacheUser } from "../utils/cache";
 import { fetchAllUsers } from "../api/userAPI";
 
 const useAllUserData = () => {
-    const [users, setUsers] = useState([])
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(false)
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-    // Fetch users
+  // Fetch users
   useEffect(() => {
     const fetchUsers = async () => {
       console.log("Fetching users...");
@@ -26,6 +26,6 @@ const useAllUserData = () => {
   }, []);
 
   return { users, loading, error };
-}
+};
 
 export default useAllUserData;

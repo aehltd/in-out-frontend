@@ -15,20 +15,23 @@ import NotFoundPage from "./components/404NotFound";
 const App = () => {
   return (
     <Router>
-      <div className="flex items-center justify-center min-h-screen bg-gray-200"> 
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path='/attendance' element={<UserAttendancePage/>} />
-            <Route path="/admin" element={<AdminPage />} />
-            <Route path="/admin/users/:id" element={<AdminUserPage />} />
-            <Route path="/admin/attendance/:id" element={<AdminUserAttendancePage />} />
-            <Route path="/admin/KPI/:id" element={<AdminUserKPIPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/access-denied" element={<AccessDeniedPage />} />
-            <Route path="/404-page-not-found" element={<NotFoundPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+      <div className="flex items-center justify-center min-h-screen bg-gray-200">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/attendance" element={<UserAttendancePage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/users/:id" element={<AdminUserPage />} />
+          <Route
+            path="/admin/attendance/:id"
+            element={<AdminUserAttendancePage />}
+          />
+          <Route path="/admin/KPI/:id" element={<AdminUserKPIPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/access-denied" element={<AccessDeniedPage />} />
+          <Route path="/404-page-not-found" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </div>
     </Router>
   );

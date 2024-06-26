@@ -15,24 +15,20 @@ const AdminUserPage = () => {
     if (role !== "admin") navigate("/access-denied");
   }, [role, navigate]);
 
-  const { 
-    user,
-    loading, 
-    error 
-  } = useUserData(id);
+  const { user, loading, error } = useUserData(id);
   let pageContent;
 
   const handleNavToAttendance = () => {
     navigate(`/admin/attendance/${id}`);
-  }
+  };
 
   const handleNavToKPI = () => {
     navigate(`/admin/kpi/${id}`);
-  }
+  };
 
   const handleNavToList = () => {
     navigate("/admin");
-  }
+  };
 
   if (loading) pageContent = <p>Loading user...</p>;
   else if (error) pageContent = <p>{error}</p>;
@@ -44,8 +40,12 @@ const AdminUserPage = () => {
         <p>Role: {user.role}</p>
         <p>Email: {user.email}</p>
         <div className="mt-4 flex">
-          <button className="btn mr-6" onClick={handleNavToAttendance}>Attendance</button>
-          <button className="btn" onClick={handleNavToKPI}>KPI</button>
+          <button className="btn mr-6" onClick={handleNavToAttendance}>
+            Attendance
+          </button>
+          <button className="btn" onClick={handleNavToKPI}>
+            KPI
+          </button>
         </div>
       </div>
     );
@@ -55,7 +55,9 @@ const AdminUserPage = () => {
       <h1>Admin User Page</h1>
       {pageContent}
       <div className="mt-6 flex justify-start">
-        <button className="btn" onClick={handleNavToList}>Back to list</button>
+        <button className="btn" onClick={handleNavToList}>
+          Back to list
+        </button>
       </div>
     </div>
   );

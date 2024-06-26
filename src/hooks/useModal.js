@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { getDefaultFieldValue } from '../utils/fieldFormatting';
+import { useState } from "react";
+import { getDefaultFieldValue } from "../utils/fieldFormatting";
 
 const useModal = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -23,7 +23,7 @@ const useModal = () => {
       console.log(`field: ${field}, value: ${newItem[field]}`);
     });
     return newItem;
-  }
+  };
   return {
     openModal,
     selectedItem,

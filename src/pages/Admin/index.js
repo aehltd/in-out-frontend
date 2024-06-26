@@ -14,7 +14,7 @@ const AdminPage = () => {
   const role = localStorage.getItem("role");
 
   // States for user list
-  const {users, loading, error} = useAllUserData();
+  const { users, loading, error } = useAllUserData();
   let pageContent;
 
   const [openModal, setOpenModal] = useState(false);
@@ -33,11 +33,11 @@ const AdminPage = () => {
   const handleNewMeeting = () => {
     console.log("NEW MEETING");
     setOpenModal(true);
-  }
+  };
   const handleSubmit = (scheduleItem) => {
     console.log("Hello");
     navigate("/");
-  }
+  };
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -45,7 +45,7 @@ const AdminPage = () => {
   // Handle new task
   const handleNewTask = () => {
     console.log("NEW TASK");
-  }
+  };
 
   // Handle user click
   const handleUserClick = (user) => {
@@ -69,9 +69,9 @@ const AdminPage = () => {
 
   return (
     <>
-      <Modal isOpen={openModal} size='md'>
+      <Modal isOpen={openModal} size="md">
         <span className="block text-lg font-bold mr-6">New Schedule Item</span>
-        <NotificationForm onCancel={handleCloseModal} onSubmit={handleSubmit}/>
+        <NotificationForm onCancel={handleCloseModal} onSubmit={handleSubmit} />
       </Modal>
       <div className="container max-w-sm">
         <h1>Admin Page</h1>
@@ -79,12 +79,13 @@ const AdminPage = () => {
           <h2>Welcome, {name}!</h2>
         </div>
         <h3>Actions</h3>
-        <button className="btn" onClick={handleNewMeeting}>Send out a new notification</button>
+        <button className="btn" onClick={handleNewMeeting}>
+          Send out a new notification
+        </button>
         {pageContent}
         <div className="mt-6 flex justify-start">
-          <button className="btn"
-            onClick={handleLogout}>
-              Log out
+          <button className="btn" onClick={handleLogout}>
+            Log out
           </button>
         </div>
       </div>

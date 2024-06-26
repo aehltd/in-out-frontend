@@ -23,11 +23,7 @@ const AdminUserKPIPage = () => {
     if (role !== "admin") navigate("/access-denied");
   }, [role, navigate]);
 
-  const {
-    user,
-    loading: userLoading,
-    error: userError,
-  } = useUserData(id);
+  const { user, loading: userLoading, error: userError } = useUserData(id);
   const {
     list,
     loading: listLoading,
@@ -48,7 +44,7 @@ const AdminUserKPIPage = () => {
   };
   const handleEdit = async (newItem) => {
     console.log(`Tried to edit item: ${newItem._id}`);
-    console.table(await editKPIRecord( newItem));
+    console.table(await editKPIRecord(newItem));
     loadList();
   };
   const handleDelete = async (item) => {

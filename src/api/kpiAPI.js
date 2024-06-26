@@ -19,7 +19,7 @@ async function getUserKPI(_id) {
     console.error("Failed to get KPI:", error.message);
     throw new Error("Failed to get KPI. Please try again later.");
   }
-};
+}
 
 async function addKPIRecord(_id, newItem) {
   try {

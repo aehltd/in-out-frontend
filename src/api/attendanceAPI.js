@@ -3,18 +3,16 @@ async function getUserAttendance(_id = null) {
     // If _id is null, get all attendance records, otherwise get attendance records for a specific user
     const url = _id
       ? `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance?user=${_id}`
-      : `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/history`
+      : `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/history`;
 
     // Get attendance records from server
-    const response = await fetch(url,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": localStorage.getItem("token"),
-        },
-      }
-    );
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": localStorage.getItem("token"),
+      },
+    });
 
     const data = await response.json();
     if (!response.ok) throw new Error(data.msg);
@@ -24,7 +22,7 @@ async function getUserAttendance(_id = null) {
     console.error("Failed to get attendance:", error.message);
     throw new Error("Failed to get attendance. Please try again later.");
   }
-};
+}
 
 async function addAttendanceRecord(_id, newItem) {
   try {
@@ -115,13 +113,16 @@ async function editAttendanceRecord(updatedItem) {
 
 // Handle the clock in event
 async function clockIn() {
-  const response = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/clockin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-auth-token": localStorage.getItem("token"),
-    },
-  });
+  const response = await fetch(
+    `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/clockin`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": localStorage.getItem("token"),
+      },
+    }
+  );
 
   const data = await response.json();
   if (response.ok) {
@@ -147,23 +148,26 @@ async function clockIn() {
 // Check if the user has clocked in today
 async function checkClockInStatus() {
   try {
-    console.log('Checking clock in status from server...');
-    const response = await fetch(`${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/today`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token": localStorage.getItem("token"),
-      },
-    });
+    console.log("Checking clock in status from server...");
+    const response = await fetch(
+      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/today`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.getItem("token"),
+        },
+      }
+    );
 
     const data = await response.json();
-    console.log('API response:', data);
+    console.log("API response:", data);
 
-    const clockedIn = data.msg === "Records found"
-    console.log('Clocked in:', clockedIn);
+    const clockedIn = data.msg === "Records found";
+    console.log("Clocked in:", clockedIn);
     return clockedIn;
   } catch (error) {
-    console.error('Fetch error:', error);
+    console.error("Fetch error:", error);
     return false;
   }
 }

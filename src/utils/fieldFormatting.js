@@ -47,4 +47,4 @@ export const getFieldNames = (field) => {
     default:
       return field;
   }
-}
+};

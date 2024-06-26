@@ -28,12 +28,8 @@ const AdminUserAttendancePage = () => {
   useEffect(() => {
     if (role !== "admin") navigate("/access-denied");
   }, [role, navigate]);
-  
-  const {
-    user,
-    loading: userLoading,
-    error: userError,
-  } = useUserData(id);
+
+  const { user, loading: userLoading, error: userError } = useUserData(id);
   const {
     list,
     loading: listLoading,
@@ -46,27 +42,23 @@ const AdminUserAttendancePage = () => {
     modalType,
     openModalWithType,
     handleModalClose,
-    createDefaultItem
+    createDefaultItem,
   } = useModal();
-  const {
-    mode,
-    handleModeChange,
-    amIDisabled,
-  } = useMode('calendar');
+  const { mode, handleModeChange, amIDisabled } = useMode("calendar");
   const attendanceFields = { date: "datetime-local", isClockedIn: "checkbox" };
-  
+
   //handle editing/add/delete clicks
   const handleClick = (type = null, item = null) => {
     if (type === null) {
       console.log("Type is null, returning.");
       return;
     }
-    if (item === null) item = createDefaultItem(attendanceFields)
+    if (item === null) item = createDefaultItem(attendanceFields);
     console.log("Tried to open modal.");
     console.log("Type: ", type);
     console.log("Item: ", item);
     openModalWithType(type, item);
-  }
+  };
 
   //handle submitting the modal
   const handleModalSubmit = async (type, item) => {
@@ -78,22 +70,21 @@ const AdminUserAttendancePage = () => {
       } else if (type === "delete") {
         await deleteAttendanceRecord(item._id);
       }
-      await loadList(); 
+      await loadList();
     } catch (error) {
       console.error("Error handling modal submit: ", error);
     } finally {
       handleModalClose();
     }
-  }
+  };
 
   const handleNavToDashboard = () => {
     navigate("/admin");
-  }
+  };
 
   const handleNavToUser = () => {
     navigate(`/admin/users/${id}`);
-  }
-
+  };
 
   let title;
   let pageContent;
@@ -104,24 +95,28 @@ const AdminUserAttendancePage = () => {
   } else if (userError) {
     title = userError;
   } else {
-    title = <>
-      {user.name}'s <br /> Attendance Record
-    </>;
+    title = (
+      <>
+        {user.name}'s <br /> Attendance Record
+      </>
+    );
   }
 
-  if (listLoading) pageContent = <LoadingSpinner/>;
+  if (listLoading) pageContent = <LoadingSpinner />;
   else if (listError) {
     title = <h1>Error</h1>;
     pageContent = <p>{listError}</p>;
     backLink = (
       <div className="flex justify-end mt-6">
-        <button className="btn" onClick={handleNavToDashboard}>Back to dashboard</button>
+        <button className="btn" onClick={handleNavToDashboard}>
+          Back to dashboard
+        </button>
       </div>
     );
   } else {
     pageContent = (
       <>
-        <Modal isOpen={openModal} size='sm'>
+        <Modal isOpen={openModal} size="sm">
           <GenericAddEditDelete
             type={modalType}
             fields={attendanceFields}
@@ -138,7 +133,7 @@ const AdminUserAttendancePage = () => {
           />
         )}
         {mode === "calendar" && (
-          <Calendar 
+          <Calendar
             list={list}
             fields={attendanceFields}
             onClick={handleClick}
@@ -148,24 +143,38 @@ const AdminUserAttendancePage = () => {
     );
     backLink = (
       <div className="flex justify-between mt-6">
-        <button className="btn" onClick={handleNavToUser}>Back to user</button>
+        <button className="btn" onClick={handleNavToUser}>
+          Back to user
+        </button>
         <div className="flex">
-          <button className="btn btn-icon" disabled={amIDisabled("list")} onClick={() => handleModeChange("list")}>
+          <button
+            className="btn btn-icon"
+            disabled={amIDisabled("list")}
+            onClick={() => handleModeChange("list")}
+          >
             <span class="material-icons-outlined align-middle">reorder</span>
           </button>
-          <button className="btn btn-icon" disabled={amIDisabled("calendar")} onClick={() => handleModeChange("calendar")}>
-            <span class="material-icons-outlined align-middle">calendar_today</span>
+          <button
+            className="btn btn-icon"
+            disabled={amIDisabled("calendar")}
+            onClick={() => handleModeChange("calendar")}
+          >
+            <span class="material-icons-outlined align-middle">
+              calendar_today
+            </span>
           </button>
         </div>
       </div>
     );
-  };
+  }
 
   return (
     <div className="container max-w-md">
       <div>
         <div className="flex justify-center items-center">
-        <span className="block text-3xl font-bold text-center mb-4">{title}</span>
+          <span className="block text-3xl font-bold text-center mb-4">
+            {title}
+          </span>
         </div>
         {pageContent}
       </div>

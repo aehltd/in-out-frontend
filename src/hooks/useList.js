@@ -4,14 +4,12 @@ const useList = (id = null, getListContents) => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const loadList = useCallback(async () => {
     console.log("loading list from API");
     setLoading(true);
     try {
-      const data = 
-        id ? await getListContents(id)
-        : await getListContents();
+      const data = id ? await getListContents(id) : await getListContents();
 
       setList(data);
     } catch (err) {

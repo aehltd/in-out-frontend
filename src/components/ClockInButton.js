@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import { clockIn, checkClockInStatus  } from "../api/attendanceAPI";
+import React, { useState, useEffect } from "react";
+import { clockIn, checkClockInStatus } from "../api/attendanceAPI";
 
 const ClockInButton = () => {
   const [isClockedIn, setIsClockedIn] = useState(true);
@@ -14,7 +14,7 @@ const ClockInButton = () => {
     }
 
     checkClockIn();
-  }, [])
+  }, []);
 
   const handleClick = async () => {
     console.log("Clocking in...");
@@ -26,11 +26,13 @@ const ClockInButton = () => {
       console.log("Error clocking in!");
     }
     setIsClockedIn(clockedIn);
-  }
+  };
 
   return (
-    <button className="btn" onClick={handleClick} disabled={isClockedIn}>Clock In</button>
-  )
-}
+    <button className="btn" onClick={handleClick} disabled={isClockedIn}>
+      Clock In
+    </button>
+  );
+};
 
 export default ClockInButton;
