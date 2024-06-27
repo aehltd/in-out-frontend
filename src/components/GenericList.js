@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { formatFieldValue } from "../utils/fieldFormatting";
+import { displayFieldValue, getFieldNames } from "../utils/fieldFormatting";
 
 const GenericList = ({ list, fields, onClick = null }) => {
   useEffect(() => {
@@ -24,8 +24,8 @@ const GenericList = ({ list, fields, onClick = null }) => {
               <div className="grow">
                 {Object.keys(fields).map((field) => (
                   <div key={field}>
-                    <label>{field}: </label>
-                    <span>{formatFieldValue(fields[field], item[field])}</span>
+                    <label>{getFieldNames(field)}: </label>
+                    <span>{displayFieldValue(fields[field], item[field])}</span>
                   </div>
                 ))}
               </div>

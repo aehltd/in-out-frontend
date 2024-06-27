@@ -31,8 +31,7 @@ const useLogin = () => {
       setLoading(false);
       return data;
     } catch (error) {
-      console.error("Login failed:", error.message);
-      setError("Failed to login. Please try again later.");
+      setError(error.message);
       setLoading(false);
       return null; // Return null or handle error as needed
     }

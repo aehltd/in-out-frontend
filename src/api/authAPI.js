@@ -14,13 +14,13 @@ const loginUser = async (email, password) => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error("Failed to login.");
+      throw new Error(data.msg);
     }
 
     return data;
   } catch (error) {
     console.error("Login failed:", error.message);
-    throw new Error("Failed to login. Please try again later.");
+    throw new Error(error.message);
   }
 };
 

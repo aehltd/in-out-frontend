@@ -41,7 +41,6 @@ const LoginForm = ({ onLogin }) => {
               value={email}
               onChange={handleEmailChange}
               placeholder="john.doe@example.com"
-              required
             />
           </div>
         </div>
@@ -55,7 +54,6 @@ const LoginForm = ({ onLogin }) => {
             className="input-field"
             value={password}
             onChange={handlePasswordChange}
-            required
           />
         </div>
         <div className="mt-5 flex space-x-4 justify-between">

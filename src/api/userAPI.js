@@ -21,9 +21,14 @@ const fetchAllUsers = async () => {
 };
 
 const fetchUser = async (userId = null) => {
+  console.log("UserID:", userId)
+  console.log("Token:", localStorage.getItem("token"));
+
   const url = userId
     ? `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/${userId}`
     : `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/me`;
+
+  console.log("URL:", url)
 
   try {
     const response = await fetch(url, {

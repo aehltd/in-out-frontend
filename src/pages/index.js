@@ -44,8 +44,12 @@ const HomePage = () => {
     navigate("/attendance");
   };
 
+  const handleNavToSettings = () => {
+    navigate("/settings");
+  }
+
   return (
-    <div className="container max-w-md">
+    <div className="container max-w-sm">
       <span className="block text-lg font-bold mr-6">Home Page</span>
       <span className="block text-lg font-bold mr-6">Welcome, {name}!</span>
       <div className="flex space-x-4">
@@ -54,9 +58,12 @@ const HomePage = () => {
           View My Attendance
         </button>
       </div>
-      <div className="flex justify-start mt-6">
+      <div className="flex justify-between mt-6">
         <button className="btn" onClick={handleLogout}>
           Log out
+        </button>
+        <button className="btn btn-icon" onClick={handleNavToSettings}>
+          <span className="material-icons-outlined align-middle">manage_accounts</span>
         </button>
       </div>
     </div>

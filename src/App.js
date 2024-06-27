@@ -11,6 +11,7 @@ import AdminUserAttendancePage from "./pages/Admin/UserPage/Attendance";
 import AdminUserKPIPage from "./pages/Admin/UserPage/KPI";
 import AccessDeniedPage from "./components/403AccessDenied";
 import NotFoundPage from "./components/404NotFound";
+import SettingsPage from "./pages/Settings";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/admin/KPI/:id" element={<AdminUserKPIPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
           <Route path="/access-denied" element={<AccessDeniedPage />} />
           <Route path="/404-page-not-found" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />

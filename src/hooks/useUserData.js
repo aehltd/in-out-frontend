@@ -4,6 +4,13 @@ import { getCacheUser, setCacheUser } from "../utils/cache";
 
 const useUserData = (id = null) => {
   const [user, setUser] = useState(null);
+  const [initialState, setInitialState] = useState({});
+  const [isDisabled, setIsDisabled] = useState({
+    name: true,
+    role: true,
+    email: true,
+  });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -12,6 +19,7 @@ const useUserData = (id = null) => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        console.log(id);
         if (id) {
           const cachedUser = getCacheUser(id);
           if (cachedUser) {
@@ -29,6 +37,7 @@ const useUserData = (id = null) => {
           console.log("Fetching current user's data from API...");
           const userData = await fetchUser();
           setUser(userData);
+          setInitialState({ ...userData });
         }
       } catch (err) {
         setError(err.message);
@@ -41,7 +50,44 @@ const useUserData = (id = null) => {
     fetchData();
   }, [id]);
 
-  return { user, loading, error };
+  useEffect(() => {
+    console.log("user data changed");
+    console.log(user);
+  }, [user])
+
+  useEffect(() => {
+    console.log("disabled changed");
+    console.log(isDisabled);
+  }, [isDisabled])
+
+  const handleChange = (e) => {
+    console.log(e.target.id, e.target.value);
+    setUser({ ...user, [e.target.id]: e.target.value });
+  };
+
+  const handleEnable = (e) => {
+    console.log(e.target.id);
+    setIsDisabled({ ...isDisabled, [e.target.id]: false});
+  }
+
+  const handleReset = () => {
+    setUser(initialState);
+    setIsDisabled({ name: true, role: true, email: true });
+    console.log("Reset");
+  };
+
+  const handleSubmit = () => {
+    setInitialState({
+      ...initialState,
+      name: user.name,
+      role: user.role,
+      email: user.email,
+    });
+    setIsDisabled({ name: true, role: true, email: true });
+    console.log("Saved");
+  };
+
+  return { user, initialState, isDisabled, loading, error, handleChange, handleEnable, handleReset, handleSubmit };
 };
 
 export default useUserData;

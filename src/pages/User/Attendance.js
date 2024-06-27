@@ -8,13 +8,9 @@ import Calendar from "../../components/Calendar";
 
 const UserAttendancePage = () => {
   const navigate = useNavigate();
-
   const name = localStorage.getItem("name");
-
   const { list, loading, error } = useList(null, getUserAttendance);
-
   const { mode, handleModeChange, amIDisabled } = useMode("calendar");
-
   const attendanceFields = { date: "datetime-local", isClockedIn: "checkbox" };
 
   const handleNavToHome = () => {
