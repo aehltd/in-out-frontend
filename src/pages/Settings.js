@@ -1,13 +1,16 @@
 import React from "react";
 import useUserData from "../hooks/useUserData";
 import { useNavigate } from "react-router";
+import Modal from "../components/Modal";
+import PasswordForm from "../components/PasswordForm";
+import useModal from "../hooks/useModal";
 
 const SettingsPage = () => {
   const navigate = useNavigate();
   const name = localStorage.getItem("name");
   const {
     user,
-    initialState,
+    isBeingEdited,
     isDisabled,
     loading,
     error,
@@ -16,9 +19,19 @@ const SettingsPage = () => {
     handleReset,
     handleSubmit,
   } = useUserData(null);
+  const { openModal, handleModalOpen, handleModalClose } = useModal();
 
   const handleNavToHome = () => {
     navigate("/");
+  };
+
+  const handlePasswordCancel = () => {
+    handleModalClose();
+  };
+
+  const handlePasswordSave = (message) => {
+    console.table(message);
+    handleModalClose();
   };
 
   let pageContent;
@@ -35,7 +48,7 @@ const SettingsPage = () => {
             htmlFor="name"
             className="inline-flex text-sm w-full font-medium justify-between"
           >
-            Email
+            Name
             <button
               id="name"
               className="text-green-500 hover:text-green-600"
@@ -76,32 +89,53 @@ const SettingsPage = () => {
           />
         </div>
         <div className="mt-4">
-            <span className="flex justify-end">
+          <label
+            htmlFor="password"
+            className="inline-flex text-sm w-full font-medium justify-between items-center"
+          >
+            Password
             <button
-                className="btn btn-secondary"
-                onClick={handleReset}
+              className="btn btn-secondary mr-0"
+              onClick={handleModalOpen}
             >
-                Cancel
+              Change Password
             </button>
-            <button className="btn" onClick={handleSubmit}>
-                Save Changes
-            </button>
-            </span>
+          </label>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container max-w-sm">
-      <h1>User: {name}</h1>
-      {pageContent}
-      <div className="mt-6 inline-flex justify-between">
-        <button className="btn" onClick={handleNavToHome}>
-          Back to home
-        </button>
+    <>
+      <Modal isOpen={openModal} size="xs">
+        <PasswordForm
+          onCancel={handlePasswordCancel}
+          onSubmit={handlePasswordSave}
+        />
+      </Modal>
+      <div className="container max-w-sm">
+        <h1>User: {name}</h1>
+        {pageContent}
+        <div className="mt-6 inline-flex w-full justify-between">
+          <button className="btn btn-secondary ml-0" onClick={handleNavToHome}>
+            Back to home
+          </button>
+          {isBeingEdited && (
+            <div>
+              <span className="flex justify-end">
+                <button className="btn btn-secondary" onClick={handleReset}>
+                  Cancel
+                </button>
+                <button className="btn mr-0" onClick={handleSubmit}>
+                  Save
+                </button>
+              </span>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -16,7 +16,7 @@ const GenericList = ({ list, fields, onClick = null }) => {
           </button>
         </div>
       )}
-      <ul className="list max-h-">
+      <ul className="list">
         {list.map((item) => (
           <li className="list-item" key={item._id}>
             <div className="flex justify-between items-center">

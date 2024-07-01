@@ -6,6 +6,10 @@ const useModal = () => {
   const [selectedItem, setSelectedItem] = useState(null); // [item]
   const [modalType, setModalType] = useState(null); // ['add', 'edit', 'delete']
 
+  const handleModalOpen = () => {
+    setOpenModal(true);
+  };
+
   const openModalWithType = (type, item) => {
     setModalType(type);
     setSelectedItem(item);
@@ -28,6 +32,7 @@ const useModal = () => {
     openModal,
     selectedItem,
     modalType,
+    handleModalOpen,
     openModalWithType,
     handleModalClose,
     createDefaultItem,

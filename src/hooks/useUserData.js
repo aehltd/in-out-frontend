@@ -5,6 +5,7 @@ import { getCacheUser, setCacheUser } from "../utils/cache";
 const useUserData = (id = null) => {
   const [user, setUser] = useState(null);
   const [initialState, setInitialState] = useState({});
+  const [isBeingEdited, setIsBeingEdited] = useState(false);
   const [isDisabled, setIsDisabled] = useState({
     name: true,
     role: true,
@@ -52,23 +53,29 @@ const useUserData = (id = null) => {
 
   useEffect(() => {
     console.log("user data changed");
-    console.log(user);
-  }, [user])
+    console.log("User data:", user);
+    console.log("Initial state:", initialState);
+    if (JSON.stringify(user) === JSON.stringify(initialState)) {
+      console.log("user data is the same as initial state");
+      setIsBeingEdited(false);
+    }
+  }, [user, initialState]);
 
   useEffect(() => {
     console.log("disabled changed");
     console.log(isDisabled);
-  }, [isDisabled])
+  }, [isDisabled]);
 
   const handleChange = (e) => {
     console.log(e.target.id, e.target.value);
+    setIsBeingEdited(true);
     setUser({ ...user, [e.target.id]: e.target.value });
   };
 
   const handleEnable = (e) => {
     console.log(e.target.id);
-    setIsDisabled({ ...isDisabled, [e.target.id]: false});
-  }
+    setIsDisabled({ ...isDisabled, [e.target.id]: false });
+  };
 
   const handleReset = () => {
     setUser(initialState);
@@ -87,7 +94,18 @@ const useUserData = (id = null) => {
     console.log("Saved");
   };
 
-  return { user, initialState, isDisabled, loading, error, handleChange, handleEnable, handleReset, handleSubmit };
+  return {
+    user,
+    initialState,
+    isBeingEdited,
+    isDisabled,
+    loading,
+    error,
+    handleChange,
+    handleEnable,
+    handleReset,
+    handleSubmit,
+  };
 };
 
 export default useUserData;

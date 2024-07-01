@@ -22,9 +22,9 @@ const LoginForm = ({ onLogin }) => {
 
   return (
     <div>
-      <div className="flex items-baseline mb-4">
-        <span className="block text-lg font-bold mr-6">Login</span>
-        <span className="text-sm font-medium text-red-500">
+      <div className="flex items-baseline justify-between mb-4">
+        <span className="block text-lg font-bold">Login</span>
+        <span className="text-sm font-medium text-red-500 text-end">
           {error && <p>{error}</p>}
         </span>
       </div>
