@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useUserData from "../../../hooks/useUserData";
+import { UserInfo } from "../../../components/UserSettings";
 
 const AdminUserPage = () => {
   const { id } = useParams();
@@ -36,9 +37,7 @@ const AdminUserPage = () => {
     pageContent = (
       <div>
         <h1>{user.name}</h1>
-        <p>ID: {user._id}</p>
-        <p>Role: {user.role}</p>
-        <p>Email: {user.email}</p>
+        <UserInfo id={id} />
         <div className="mt-4 flex">
           <button className="btn mr-6" onClick={handleNavToAttendance}>
             Attendance

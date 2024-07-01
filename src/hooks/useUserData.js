@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchUser } from "../api/userAPI";
 import { getCacheUser, setCacheUser } from "../utils/cache";
+import { updateUser } from "../api/userAPI";
 
 const useUserData = (id = null) => {
   const [user, setUser] = useState(null);
@@ -52,9 +53,9 @@ const useUserData = (id = null) => {
   }, [id]);
 
   useEffect(() => {
-    console.log("user data changed");
-    console.log("User data:", user);
-    console.log("Initial state:", initialState);
+    // console.log("user data changed");
+    // console.log("User data:", user);
+    // console.log("Initial state:", initialState);
     if (JSON.stringify(user) === JSON.stringify(initialState)) {
       console.log("user data is the same as initial state");
       setIsBeingEdited(false);
@@ -83,7 +84,9 @@ const useUserData = (id = null) => {
     console.log("Reset");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    console.log("Submitting...");
+    console.log(user);
     setInitialState({
       ...initialState,
       name: user.name,
@@ -91,7 +94,18 @@ const useUserData = (id = null) => {
       email: user.email,
     });
     setIsDisabled({ name: true, role: true, email: true });
-    console.log("Saved");
+    
+    if (user.name !== localStorage.getItem('name')) {
+      localStorage.setItem('name', user.name);
+    }
+    if (user.role && user.role !== localStorage.getItem('role')) {
+      localStorage.setItem('role', user.role);
+    }
+
+    const updatedUser = await updateUser(id, user);
+    console.log(updatedUser);
+    setCacheUser(id, updatedUser);
+    console.log("UPDATED.");
   };
 
   return {

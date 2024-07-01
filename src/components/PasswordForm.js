@@ -70,7 +70,7 @@ const PasswordForm = ({ onCancel, onSubmit }) => {
           >
             Cancel
           </button>
-          <button className="btn" type="submit">
+          <button className="btn mr-0" type="submit">
             {loading ? "Loading..." : "Save"}
           </button>
         </div>

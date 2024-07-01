@@ -43,9 +43,9 @@ const AdminPage = () => {
     setOpenModal(false);
   };
   // Handle new task
-  const handleNewTask = () => {
-    console.log("NEW TASK");
-  };
+  const handleNavToSettings = () => {
+    navigate("/settings");
+  }
 
   // Handle user click
   const handleUserClick = (user) => {
@@ -83,9 +83,14 @@ const AdminPage = () => {
           Send out a new notification
         </button>
         {pageContent}
-        <div className="mt-6 flex justify-start">
+        <div className="flex justify-between mt-6">
           <button className="btn" onClick={handleLogout}>
             Log out
+          </button>
+          <button className="btn btn-icon" onClick={handleNavToSettings}>
+            <span className="material-icons-outlined align-middle">
+              manage_accounts
+            </span>
           </button>
         </div>
       </div>
