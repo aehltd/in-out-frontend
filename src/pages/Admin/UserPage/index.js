@@ -40,7 +40,7 @@ const AdminUserPage = () => {
         </UserInfo>
       </div>
       <div className="mt-6 flex justify-start">
-        <button className="btn" onClick={handleNavToList}>
+        <button className="btn btn-secondary" onClick={handleNavToList}>
           Back to list
         </button>
       </div>

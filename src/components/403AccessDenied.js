@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const AccessDeniedPage = () => {
   return (
-    <div>
+    <div className="container max-w-sm">
       <h1>Access Denied</h1>
       <p>You do not have permission to view this page.</p>
       <p>

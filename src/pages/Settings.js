@@ -17,7 +17,7 @@ const SettingsPage = () => {
         <UserInfo />
         <ChangePassword />
         <div className="mt-6 inline-flex w-full justify-between">
-          <button className="btn btn-secondary ml-0" onClick={handleNavToHome}>
+          <button className="btn btn-secondary" onClick={handleNavToHome}>
             Back to home
           </button>
         </div>

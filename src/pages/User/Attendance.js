@@ -5,6 +5,7 @@ import useMode from "../../hooks/useMode";
 import GenericList from "../../components/GenericList";
 import { getUserAttendance } from "../../api/attendanceAPI";
 import Calendar from "../../components/Calendar";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const UserAttendancePage = () => {
   const navigate = useNavigate();
@@ -17,50 +18,6 @@ const UserAttendancePage = () => {
     navigate("/");
   };
 
-  let listContent;
-  let backLink;
-
-  if (loading) listContent = <p>Loading...</p>;
-  else if (error) {
-    listContent = <p>{error.message}</p>;
-  } else
-    listContent = (
-      <>
-        {mode === "list" && (
-          <GenericList list={list} fields={attendanceFields} />
-        )}
-        {mode === "calendar" && (
-          <Calendar list={list} fields={attendanceFields} />
-        )}
-      </>
-    );
-
-  backLink = (
-    <div className="flex justify-between mt-6">
-      <button className="btn" onClick={handleNavToHome}>
-        Back to home
-      </button>
-      <div className="flex">
-        <button
-          className="btn btn-icon"
-          disabled={amIDisabled("list")}
-          onClick={() => handleModeChange("list")}
-        >
-          <span className="material-icons-outlined align-middle">reorder</span>
-        </button>
-        <button
-          className="btn btn-icon"
-          disabled={amIDisabled("calendar")}
-          onClick={() => handleModeChange("calendar")}
-        >
-          <span className="material-icons-outlined align-middle">
-            calendar_today
-          </span>
-        </button>
-      </div>
-    </div>
-  );
-
   return (
     <div className="container max-w-md">
       <div className="flex justify-center items-center mb-4">
@@ -68,8 +25,43 @@ const UserAttendancePage = () => {
           {name}'s <br /> Attendance Record
         </span>
       </div>
-      {listContent}
-      {backLink}
+      {loading && <LoadingSpinner />}
+      {error && <p>{error.message}</p>}
+      {!loading && !error && (
+        <>
+          {mode === "list" && (
+            <GenericList list={list} fields={attendanceFields} />
+          )}
+          {mode === "calendar" && (
+            <Calendar list={list} fields={attendanceFields} />
+          )}
+        </>
+      )}
+      <div className="flex justify-between mt-6">
+        <button className="btn btn-secondary" onClick={handleNavToHome}>
+          Back to home
+        </button>
+        <div className="flex">
+          <button
+            className="btn btn-icon"
+            disabled={amIDisabled("list")}
+            onClick={() => handleModeChange("list")}
+          >
+            <span className="material-icons-outlined align-middle">
+              reorder
+            </span>
+          </button>
+          <button
+            className="btn btn-icon"
+            disabled={amIDisabled("calendar")}
+            onClick={() => handleModeChange("calendar")}
+          >
+            <span className="material-icons-outlined align-middle">
+              calendar_today
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

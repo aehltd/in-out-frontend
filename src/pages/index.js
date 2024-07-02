@@ -55,12 +55,12 @@ const HomePage = () => {
       <div className="flex space-x-4">
         <ClockInButton />
         <button className="btn" onClick={handleNavToAttendance}>
-          View My Attendance
+          My Attendance
         </button>
       </div>
       <div className="flex justify-between mt-6">
-        <button className="btn" onClick={handleLogout}>
-          Log out
+        <button className="btn btn-secondary" onClick={handleLogout}>
+          Logout
         </button>
         <button className="btn btn-icon" onClick={handleNavToSettings}>
           <span className="material-icons-outlined align-middle">manage_accounts</span>

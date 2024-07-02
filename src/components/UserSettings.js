@@ -30,7 +30,7 @@ const ChangePassword = () => {
           className="inline-flex text-sm w-full font-medium justify-between items-center"
         >
           Password
-          <button className="btn btn-secondary mr-0" onClick={handleModalOpen}>
+          <button className="btn btn-secondary" onClick={handleModalOpen}>
             Change Password
           </button>
         </label>
@@ -145,14 +145,14 @@ const UserInfo = ({id = null, children}) => {
         <div>
           <span className="flex justify-end mt-4">
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary mr-4"
               onClick={handleReset}
               disabled={!isBeingEdited}
             >
               Cancel
             </button>
             <button
-              className="btn mr-0"
+              className="btn"
               onClick={handleSubmit}
               disabled={!isBeingEdited}
             >

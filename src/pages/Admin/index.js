@@ -84,7 +84,7 @@ const AdminPage = () => {
         </button>
         {pageContent}
         <div className="flex justify-between mt-6">
-          <button className="btn" onClick={handleLogout}>
+          <button className="btn btn-secondary" onClick={handleLogout}>
             Log out
           </button>
           <button className="btn btn-icon" onClick={handleNavToSettings}>
