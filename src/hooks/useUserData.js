@@ -71,15 +71,6 @@ const useUserData = (id = null) => {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (isDisabled) {
-    console.log("disabled changed");
-    console.log(isDisabled);
-    } else {
-      console.log("initializing disabled array");
-    }
-  }, [isDisabled]);
-
   const handleChange = (e) => {
     console.log(e.target.id, e.target.value);
     setIsBeingEdited(true);

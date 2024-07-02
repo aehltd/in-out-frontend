@@ -3,6 +3,7 @@ import useModal from "../hooks/useModal";
 import Modal from "./Modal";
 import PasswordForm from "./PasswordForm";
 import useUserData from "../hooks/useUserData";
+import LoadingSpinner from "./LoadingSpinner";
 
 const ChangePassword = () => {
   const { openModal, handleModalOpen, handleModalClose } = useModal();
@@ -59,7 +60,7 @@ const UserInfo = ({id = null, children}) => {
   }, [id]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
   if (error) {
     return <p>{error}</p>;

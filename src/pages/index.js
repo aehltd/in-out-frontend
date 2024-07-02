@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { emptyCache } from "../utils/cache";
 import ClockInButton from "../components/ClockInButton";
@@ -11,26 +11,20 @@ const HomePage = () => {
   const role = localStorage.getItem("role");
   console.log(token, name, role);
 
-  useEffect(() => {
-    if (role === "admin") {
-      navigate("/admin");
-    }
-  }, [role, navigate]);
+  if (role === "admin") navigate("/admin");
 
-  useEffect(() => {
-    if (!token) {
+  if (!token) {
+    navigate("/login");
+  } else {
+    const tokenParts = token.split(".")[1];
+    const decodedToken = JSON.parse(atob(tokenParts));
+    const exp = decodedToken.exp * 1000; // Convert to milliseconds
+    const now = Date.now();
+    if (now > exp) {
+      // Token has expired
       navigate("/login");
-    } else {
-      const tokenParts = token.split(".")[1];
-      const decodedToken = JSON.parse(atob(tokenParts));
-      const exp = decodedToken.exp * 1000; // Convert to milliseconds
-      const now = Date.now();
-      if (now > exp) {
-        // Token has expired
-        navigate("/login");
-      }
     }
-  });
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -46,7 +40,7 @@ const HomePage = () => {
 
   const handleNavToSettings = () => {
     navigate("/settings");
-  }
+  };
 
   return (
     <div className="container max-w-sm">
@@ -63,7 +57,9 @@ const HomePage = () => {
           Logout
         </button>
         <button className="btn btn-icon" onClick={handleNavToSettings}>
-          <span className="material-icons-outlined align-middle">manage_accounts</span>
+          <span className="material-icons-outlined align-middle">
+            manage_accounts
+          </span>
         </button>
       </div>
     </div>
