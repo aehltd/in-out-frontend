@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { fetchUser } from "../api/userAPI";
 import { getCacheUser, setCacheUser } from "../utils/cache";
 import { updateUser } from "../api/userAPI";
 
 const useUserData = (id = null) => {
   const [user, setUser] = useState(null);
-  const [initialState, setInitialState] = useState({});
+  const initialStateRef = useRef(); // used to store initial state
   const [isBeingEdited, setIsBeingEdited] = useState(false);
   const [isDisabled, setIsDisabled] = useState({
     name: true,
@@ -21,25 +21,30 @@ const useUserData = (id = null) => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        let userData;
         console.log(id);
         if (id) {
           const cachedUser = getCacheUser(id);
           if (cachedUser) {
             console.log("pulling from cached user data");
-            setUser(cachedUser);
+            userData = cachedUser;
           } else {
             console.log("fetching user data by ID from API");
-            console.log(id);
-            const userData = await fetchUser(id);
+            userData = await fetchUser(id);
             console.log("cacheing user data");
             setCacheUser(id, userData);
-            setUser(userData);
           }
         } else {
           console.log("Fetching current user's data from API...");
-          const userData = await fetchUser();
+          userData = await fetchUser();
+        }
+
+        if (JSON.stringify(user) !== JSON.stringify(userData)) {
+          console.log("Setting user data from fetched data");
           setUser(userData);
-          setInitialState({ ...userData });
+          initialStateRef.current = { ...userData };
+        } else {
+          console.log("User data is the same, did not change.");
         }
       } catch (err) {
         setError(err.message);
@@ -49,22 +54,30 @@ const useUserData = (id = null) => {
       }
     };
 
-    fetchData();
-  }, [id]);
+    fetchData()
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
-    // console.log("user data changed");
-    // console.log("User data:", user);
-    // console.log("Initial state:", initialState);
-    if (JSON.stringify(user) === JSON.stringify(initialState)) {
-      console.log("user data is the same as initial state");
-      setIsBeingEdited(false);
+    if (user) {
+      console.log("user data changed");
+      console.log("User data:", user);
+      if (JSON.stringify(user) === JSON.stringify(initialStateRef.current)) {
+        console.log("user data is the same as initial state");
+        setIsBeingEdited(false);
+      }
+    } else {
+      console.log("initializing user ");
     }
-  }, [user, initialState]);
+  }, [user]);
 
   useEffect(() => {
+    if (isDisabled) {
     console.log("disabled changed");
     console.log(isDisabled);
+    } else {
+      console.log("initializing disabled array");
+    }
   }, [isDisabled]);
 
   const handleChange = (e) => {
@@ -79,38 +92,34 @@ const useUserData = (id = null) => {
   };
 
   const handleReset = () => {
-    setUser(initialState);
+    console.log("Resetting...");
+    setUser(initialStateRef.current);
     setIsDisabled({ name: true, role: true, email: true });
-    console.log("Reset");
   };
 
   const handleSubmit = async () => {
     console.log("Submitting...");
     console.log(user);
-    setInitialState({
-      ...initialState,
-      name: user.name,
-      role: user.role,
-      email: user.email,
-    });
+    initialStateRef.current = { ...user };
+    setIsBeingEdited(false);
     setIsDisabled({ name: true, role: true, email: true });
-    
-    if (user.name !== localStorage.getItem('name')) {
-      localStorage.setItem('name', user.name);
-    }
-    if (user.role && user.role !== localStorage.getItem('role')) {
-      localStorage.setItem('role', user.role);
+
+    if (!id) {
+      if (user.name !== localStorage.getItem("name")) {
+        localStorage.setItem("name", user.name);
+      }
+      if (user.role && user.role !== localStorage.getItem("role")) {
+        localStorage.setItem("role", user.role);
+      }
     }
 
     const updatedUser = await updateUser(id, user);
-    console.log(updatedUser);
+    console.log("Updated user:", updatedUser);
     setCacheUser(id, updatedUser);
-    console.log("UPDATED.");
   };
 
   return {
     user,
-    initialState,
     isBeingEdited,
     isDisabled,
     loading,

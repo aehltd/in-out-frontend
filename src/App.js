@@ -1,4 +1,4 @@
-import React from "react";
+import React/**, { StrictMode }*/ from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import HomePage from "./pages/index";
@@ -15,6 +15,7 @@ import SettingsPage from "./pages/Settings";
 
 const App = () => {
   return (
+    // <StrictMode>
     <Router>
       <div className="flex items-center justify-center min-h-screen bg-gray-200">
         <Routes>
@@ -36,6 +37,7 @@ const App = () => {
         </Routes>
       </div>
     </Router>
+    // </StrictMode>
   );
 };
 // <Route component={NotFoundPage} />

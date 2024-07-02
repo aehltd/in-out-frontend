@@ -39,7 +39,7 @@ const ChangePassword = () => {
   );
 };
 
-const UserInfo = ({id = null}) => {
+const UserInfo = ({id = null, children}) => {
   const {
     user,
     isBeingEdited,
@@ -67,8 +67,10 @@ const UserInfo = ({id = null}) => {
 
   return (
     <div>
+      {id && <p>Name: {user.name}</p>}
       <p>ID: {user._id}</p>
       <p>Role: {user.role}</p>
+      {children}
       <div className="container container-inside mt-4">
         <div>
           <label
