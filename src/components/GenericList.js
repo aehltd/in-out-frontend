@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { formatFieldValue } from "../utils/fieldFormatting";
+import { displayFieldValue, getFieldNames } from "../utils/fieldFormatting";
 
 const GenericList = ({ list, fields, onClick = null }) => {
   useEffect(() => {
@@ -16,7 +16,7 @@ const GenericList = ({ list, fields, onClick = null }) => {
           </button>
         </div>
       )}
-      <ul className="list max-h-">
+      <ul className="list">
         {list.map((item) => (
           <li className="list-item" key={item._id}>
             <div className="flex justify-between items-center">
@@ -24,8 +24,8 @@ const GenericList = ({ list, fields, onClick = null }) => {
               <div className="grow">
                 {Object.keys(fields).map((field) => (
                   <div key={field}>
-                    <label>{field}: </label>
-                    <span>{formatFieldValue(fields[field], item[field])}</span>
+                    <label>{getFieldNames(field)}: </label>
+                    <span>{displayFieldValue(fields[field], item[field])}</span>
                   </div>
                 ))}
               </div>

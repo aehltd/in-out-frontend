@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserList from "../../components/UserList";
 import useAllUserData from "../../hooks/useAllUserData";
 import { emptyCache } from "../../utils/cache";
 import Modal from "../../components/Modal";
 import NotificationForm from "../../components/NotificationForm";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -13,21 +14,12 @@ const AdminPage = () => {
   const name = localStorage.getItem("name");
   const role = localStorage.getItem("role");
 
-  // States for user list
   const { users, loading, error } = useAllUserData();
-  let pageContent;
-
   const [openModal, setOpenModal] = useState(false);
 
   //Validators
-  useEffect(() => {
-    if (!token) navigate("/login");
-  }, [token, navigate]);
-  useEffect(() => {
-    if (role !== "admin") navigate("/access-denied");
-  }, [role, navigate]);
-
-  // Handlers
+  if (!token) navigate("/login");
+  if (role !== "admin") navigate("/access-denied");
 
   // Handle new meeting
   const handleNewMeeting = () => {
@@ -43,9 +35,9 @@ const AdminPage = () => {
     setOpenModal(false);
   };
   // Handle new task
-  const handleNewTask = () => {
-    console.log("NEW TASK");
-  };
+  const handleNavToSettings = () => {
+    navigate("/settings");
+  }
 
   // Handle user click
   const handleUserClick = (user) => {
@@ -63,10 +55,6 @@ const AdminPage = () => {
     navigate("/login");
   };
 
-  if (loading) pageContent = <p>Loading...</p>;
-  else if (error) pageContent = <p>{error}</p>;
-  else pageContent = <UserList users={users} onUserClick={handleUserClick} />;
-
   return (
     <>
       <Modal isOpen={openModal} size="md">
@@ -82,10 +70,17 @@ const AdminPage = () => {
         <button className="btn" onClick={handleNewMeeting}>
           Send out a new notification
         </button>
-        {pageContent}
-        <div className="mt-6 flex justify-start">
-          <button className="btn" onClick={handleLogout}>
+        {loading && <LoadingSpinner />}
+        {error && <p>{error}</p>}
+        {!loading && !error && <UserList users={users} onUserClick={handleUserClick} />}
+        <div className="flex justify-between mt-6">
+          <button className="btn btn-secondary" onClick={handleLogout}>
             Log out
+          </button>
+          <button className="btn btn-icon" onClick={handleNavToSettings}>
+            <span className="material-icons-outlined align-middle">
+              manage_accounts
+            </span>
           </button>
         </div>
       </div>

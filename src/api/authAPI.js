@@ -14,13 +14,13 @@ const loginUser = async (email, password) => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error("Failed to login.");
+      throw new Error(data.msg);
     }
 
     return data;
   } catch (error) {
     console.error("Login failed:", error.message);
-    throw new Error("Failed to login. Please try again later.");
+    throw new Error(error.message);
   }
 };
 
@@ -48,4 +48,52 @@ const registerUser = async (name, email, password) => {
   }
 };
 
-export { loginUser, registerUser };
+const confirmCurrentPassword = async (password) => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/auth/confirm-password`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({ password }),
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.msg);
+    }
+    return data;
+  } catch (error) {
+    console.error("Failed to confirm password:", error.message);
+    throw new Error(error.message);
+  }
+};
+
+const changePassword = async (password) => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/auth/change-password`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({ password }),
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.msg);
+    }
+    return data;
+  } catch (error) {
+    console.error("Failed to change password:", error.message);
+    throw new Error(error.message);
+  }
+};
+
+export { loginUser, registerUser, confirmCurrentPassword, changePassword };

@@ -22,9 +22,9 @@ const LoginForm = ({ onLogin }) => {
 
   return (
     <div>
-      <div className="flex items-baseline mb-4">
-        <span className="block text-lg font-bold mr-6">Login</span>
-        <span className="text-sm font-medium text-red-500">
+      <div className="flex items-baseline justify-between mb-4">
+        <span className="block text-lg font-bold">Login</span>
+        <span className="text-sm font-medium text-red-500 text-end">
           {error && <p>{error}</p>}
         </span>
       </div>
@@ -41,7 +41,6 @@ const LoginForm = ({ onLogin }) => {
               value={email}
               onChange={handleEmailChange}
               placeholder="john.doe@example.com"
-              required
             />
           </div>
         </div>
@@ -55,7 +54,6 @@ const LoginForm = ({ onLogin }) => {
             className="input-field"
             value={password}
             onChange={handlePasswordChange}
-            required
           />
         </div>
         <div className="mt-5 flex space-x-4 justify-between">

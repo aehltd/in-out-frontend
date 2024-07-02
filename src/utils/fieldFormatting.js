@@ -19,6 +19,21 @@ export const formatFieldValue = (field, value) => {
   }
 };
 
+export const displayFieldValue = (field, value) => {
+  switch (field) {
+    case "datetime-local":
+      return convertUTCtoLocal(value).replace("T", " ");
+    case "date":
+      return convertUTCtoLocal(value).slice(0, 10);
+    case "time":
+      return convertUTCtoLocal(value).slice(11, 16);
+    case "checkbox":
+      return value ? "Yes" : "No";
+    default:
+      return value;
+  }
+}
+
 export const getDefaultFieldValue = (field, date = null) => {
   switch (field) {
     case "datetime-local":
@@ -28,7 +43,7 @@ export const getDefaultFieldValue = (field, date = null) => {
     case "time":
       return "09:30";
     case "checkbox":
-      return false;
+      return true;
     case "number":
       return 0;
     default:

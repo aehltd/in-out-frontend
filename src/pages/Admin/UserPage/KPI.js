@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import GenericList from "../../../components/GenericList";
 import {
@@ -15,13 +15,10 @@ const AdminUserKPIPage = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
+
   // Validators
-  useEffect(() => {
-    if (!token) navigate("/login");
-  }, [token, navigate]);
-  useEffect(() => {
-    if (role !== "admin") navigate("/access-denied");
-  }, [role, navigate]);
+  if (!token) navigate("/login");
+  if (role !== "admin") navigate("/access-denied");
 
   const { user, loading: userLoading, error: userError } = useUserData(id);
   const {

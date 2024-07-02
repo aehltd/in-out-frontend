@@ -1,4 +1,4 @@
-import React from "react";
+import React/**, { StrictMode }*/ from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import HomePage from "./pages/index";
@@ -11,9 +11,11 @@ import AdminUserAttendancePage from "./pages/Admin/UserPage/Attendance";
 import AdminUserKPIPage from "./pages/Admin/UserPage/KPI";
 import AccessDeniedPage from "./components/403AccessDenied";
 import NotFoundPage from "./components/404NotFound";
+import SettingsPage from "./pages/Settings";
 
 const App = () => {
   return (
+    // <StrictMode>
     <Router>
       <div className="flex items-center justify-center min-h-screen bg-gray-200">
         <Routes>
@@ -28,12 +30,14 @@ const App = () => {
           <Route path="/admin/KPI/:id" element={<AdminUserKPIPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
           <Route path="/access-denied" element={<AccessDeniedPage />} />
           <Route path="/404-page-not-found" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </Router>
+    // </StrictMode>
   );
 };
 // <Route component={NotFoundPage} />
