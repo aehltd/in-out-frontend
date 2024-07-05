@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserList from "../../components/UserList";
 import useAllUserData from "../../hooks/useAllUserData";
@@ -18,8 +18,12 @@ const AdminPage = () => {
   const [openModal, setOpenModal] = useState(false);
 
   //Validators
-  if (!token) navigate("/login");
-  if (role !== "admin") navigate("/access-denied");
+  useEffect(() => {
+    if (!token) navigate("/login");
+  }, [token, navigate]);
+  useEffect(() => {
+    if (role !== "admin") navigate("/access-denied");
+  }, [role, navigate]);
 
   // Handle new meeting
   const handleNewMeeting = () => {
@@ -37,7 +41,7 @@ const AdminPage = () => {
   // Handle new task
   const handleNavToSettings = () => {
     navigate("/settings");
-  }
+  };
 
   // Handle user click
   const handleUserClick = (user) => {
@@ -72,7 +76,9 @@ const AdminPage = () => {
         </button>
         {loading && <LoadingSpinner />}
         {error && <p>{error}</p>}
-        {!loading && !error && <UserList users={users} onUserClick={handleUserClick} />}
+        {!loading && !error && (
+          <UserList users={users} onUserClick={handleUserClick} />
+        )}
         <div className="flex justify-between mt-6">
           <button className="btn btn-secondary" onClick={handleLogout}>
             Log out

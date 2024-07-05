@@ -61,7 +61,6 @@ const useUserData = (id = null) => {
   useEffect(() => {
     if (user) {
       console.log("user data changed");
-      console.log("User data:", user);
       if (JSON.stringify(user) === JSON.stringify(initialStateRef.current)) {
         console.log("user data is the same as initial state");
         setIsBeingEdited(false);

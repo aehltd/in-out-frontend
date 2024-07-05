@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { emptyCache } from "../utils/cache";
 import ClockInButton from "../components/ClockInButton";
@@ -11,20 +11,24 @@ const HomePage = () => {
   const role = localStorage.getItem("role");
   console.log(token, name, role);
 
-  if (role === "admin") navigate("/admin");
+  useEffect(() => {
+    if (role === "admin") navigate("/admin");
+  }, [role, navigate]);
 
-  if (!token) {
-    navigate("/login");
-  } else {
-    const tokenParts = token.split(".")[1];
-    const decodedToken = JSON.parse(atob(tokenParts));
-    const exp = decodedToken.exp * 1000; // Convert to milliseconds
-    const now = Date.now();
-    if (now > exp) {
-      // Token has expired
+  useEffect(() => {
+    if (!token) {
       navigate("/login");
+    } else {
+      const tokenParts = token.split(".")[1];
+      const decodedToken = JSON.parse(atob(tokenParts));
+      const exp = decodedToken.exp * 1000; // Convert to milliseconds
+      const now = Date.now();
+      if (now > exp) {
+        // Token has expired
+        navigate("/login");
+      }
     }
-  }
+  }, [token, navigate]); 
 
   const handleLogout = () => {
     localStorage.removeItem("token");

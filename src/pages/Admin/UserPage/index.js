@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { UserInfo } from "../../../components/UserSettings";
 
@@ -7,10 +7,14 @@ const AdminUserPage = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
-  
+
   // Validators
-  if (!token) navigate("/login");
-  if (role !== "admin") navigate("/access-denied");
+  useEffect(() => {
+    if (!token) navigate("/login");
+  }, [token, navigate]);
+  useEffect(() => {
+    if (role !== "admin") navigate("/access-denied");
+  }, [role, navigate]);
 
   const handleNavToAttendance = () => {
     navigate(`/admin/attendance/${id}`);
