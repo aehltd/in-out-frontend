@@ -9,11 +9,13 @@ const ChangePassword = () => {
   const { openModal, handleModalOpen, handleModalClose } = useModal();
 
   const handlePasswordCancel = () => {
+    console.log("cancel");
     handleModalClose();
   };
 
   const handlePasswordSave = (message) => {
     console.table(message);
+    console.log(message)
     handleModalClose();
   };
 
@@ -27,7 +29,6 @@ const ChangePassword = () => {
       </Modal>
       <div className="container container-inside mt-4">
         <label
-          htmlFor="password"
           className="inline-flex text-sm w-full font-medium justify-between items-center"
         >
           Password
@@ -93,6 +94,7 @@ const UserInfo = ({id = null, children}) => {
             value={user.name}
             onChange={handleChange}
             disabled={isDisabled.name}
+            autoComplete="off"
           />
         </div>
         {id && (<div className="mt-4">
@@ -141,6 +143,7 @@ const UserInfo = ({id = null, children}) => {
             value={user.email}
             onChange={handleChange}
             disabled={isDisabled.email}
+            autoComplete="off"
           />
         </div>
         <div>

@@ -41,6 +41,7 @@ const LoginForm = ({ onLogin }) => {
               value={email}
               onChange={handleEmailChange}
               placeholder="john.doe@example.com"
+              autoComplete="email"
             />
           </div>
         </div>
