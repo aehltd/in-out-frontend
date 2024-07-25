@@ -6,12 +6,14 @@ import GenericList from "../../components/GenericList";
 import { getUserAttendance } from "../../api/attendanceAPI";
 import Calendar from "../../components/Calendar";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import useCalendar from "../../hooks/useCalendar";
 
 const UserAttendancePage = () => {
   const navigate = useNavigate();
   const name = localStorage.getItem("name");
   const { list, loading, error } = useList(null, getUserAttendance);
   const { mode, handleModeChange, amIDisabled } = useMode("calendar");
+  const { currentMonth, handlePrevMonth, handleNextMonth } = useCalendar(); 
   const attendanceFields = { date: "datetime-local", isClockedIn: "checkbox" };
 
   const handleNavToHome = () => {
@@ -33,7 +35,7 @@ const UserAttendancePage = () => {
             <GenericList list={list} fields={attendanceFields} />
           )}
           {mode === "calendar" && (
-            <Calendar list={list} fields={attendanceFields} />
+            <Calendar currentMonth={currentMonth} handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth} list={list} fields={attendanceFields} />
           )}
         </>
       )}

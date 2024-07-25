@@ -2,8 +2,8 @@ async function getUserAttendance(_id = null) {
   try {
     // If _id is null, get all attendance records, otherwise get attendance records for a specific user
     const url = _id
-      ? `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance?user=${_id}`
-      : `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/history`;
+      ? `${process.env.REACT_APP_BACKEND_URL}/api/attendance?user=${_id}`
+      : `${process.env.REACT_APP_BACKEND_URL}/api/attendance/history`;
 
     // Get attendance records from server
     const response = await fetch(url, {
@@ -27,7 +27,7 @@ async function getUserAttendance(_id = null) {
 async function addAttendanceRecord(_id, newItem) {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/add`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/attendance/add`,
       {
         method: "POST",
         headers: {
@@ -55,7 +55,7 @@ async function addAttendanceRecord(_id, newItem) {
 async function deleteAttendanceRecord(attendanceID) {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/delete`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/attendance/delete`,
       {
         method: "DELETE",
         headers: {
@@ -83,7 +83,7 @@ async function deleteAttendanceRecord(attendanceID) {
 async function editAttendanceRecord(updatedItem) {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/edit`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/attendance/edit`,
       {
         method: "PUT",
         headers: {
@@ -114,7 +114,7 @@ async function editAttendanceRecord(updatedItem) {
 // Handle the clock in event
 async function clockIn() {
   const response = await fetch(
-    `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/clockin`,
+    `${process.env.REACT_APP_BACKEND_URL}/api/attendance/clockin`,
     {
       method: "POST",
       headers: {
@@ -150,7 +150,7 @@ async function checkClockInStatus() {
   try {
     console.log("Checking clock in status from server...");
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/attendance/today`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/attendance/today`,
       {
         method: "GET",
         headers: {

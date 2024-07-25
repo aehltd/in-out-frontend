@@ -1,7 +1,7 @@
 const fetchAllUsers = async () => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/users/`,
       {
         method: "GET",
         headers: {
@@ -25,8 +25,8 @@ const fetchUser = async (userId = null) => {
   console.log("Token:", localStorage.getItem("token"));
 
   const url = userId
-    ? `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/${userId}`
-    : `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/me`;
+    ? `${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}`
+    : `${process.env.REACT_APP_BACKEND_URL}/api/users/me`;
 
   console.log("URL:", url)
 
@@ -54,8 +54,8 @@ const updateUser = async (userId = null, updatedUser) => {
 
   const { name, email, role } = updatedUser;
   const url = userId
-    ? `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/update/${userId}`
-    : `${process.env.REACT_APP_TEST_BACKEND_URL}/api/users/update/me`;
+    ? `${process.env.REACT_APP_BACKEND_URL}/api/users/update/${userId}`
+    : `${process.env.REACT_APP_BACKEND_URL}/api/users/update/me`;
 
   console.log("URL:", url)
   console.log("Updated User:", updatedUser)
