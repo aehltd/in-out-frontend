@@ -1,7 +1,7 @@
 async function addNotification(type, item) {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/${type}/add`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/${type}/add`,
       {
         method: "POST",
         headers: {

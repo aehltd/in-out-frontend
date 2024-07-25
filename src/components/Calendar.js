@@ -1,15 +1,13 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useMemo, useCallback } from "react";
 import {
   startOfMonth,
   endOfMonth,
   startOfWeek,
   isSameMonth,
-  addMonths,
   addDays,
   format,
 } from "date-fns";
 import {
-  convertUTCtoLocalTime,
   convertUTCtoLocalDate,
   getDefaultDateTime,
 } from "../utils/dateFormatting";
@@ -17,9 +15,7 @@ import useMenu from "../hooks/useMenu";
 import Menu from "./Menu";
 import { getDefaultFieldValue } from "../utils/fieldFormatting";
 
-const Calendar = ({ list, onClick = null }) => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-
+const Calendar = ({currentMonth, handlePrevMonth, handleNextMonth, list, onClick = null }) => {
   const {
     menuOpen,
     menuPosition,
@@ -28,14 +24,6 @@ const Calendar = ({ list, onClick = null }) => {
     openMenuWithItem,
     handleMenuClose,
   } = useMenu();
-
-  const handlePrevMonth = () => {
-    setCurrentMonth((prevMonth) => addMonths(prevMonth, -1));
-  };
-
-  const handleNextMonth = () => {
-    setCurrentMonth((prevMonth) => addMonths(prevMonth, 1));
-  };
 
   const itemMap = useMemo(() => {
     console.log("Generating item map");

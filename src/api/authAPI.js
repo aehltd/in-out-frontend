@@ -1,7 +1,8 @@
 const loginUser = async (email, password) => {
+  console.log(`${process.env.REACT_APP_BACKEND_URL}`)
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/auth/login`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/auth/login`,
       {
         method: "POST",
         headers: {
@@ -27,7 +28,7 @@ const loginUser = async (email, password) => {
 const registerUser = async (name, email, password) => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/auth/register`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/auth/register`,
       {
         method: "POST",
         headers: {
@@ -51,7 +52,7 @@ const registerUser = async (name, email, password) => {
 const confirmCurrentPassword = async (password) => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/auth/confirm-password`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/auth/confirm-password`,
       {
         method: "POST",
         headers: {
@@ -75,7 +76,7 @@ const confirmCurrentPassword = async (password) => {
 const changePassword = async (password) => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/auth/change-password`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/auth/change-password`,
       {
         method: "PUT",
         headers: {

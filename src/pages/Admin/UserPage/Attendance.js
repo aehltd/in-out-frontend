@@ -15,6 +15,7 @@ import useModal from "../../../hooks/useModal";
 import GenericAddEditDelete from "../../../components/GenericAddEditDelete";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import useMode from "../../../hooks/useMode";
+import useCalendar from "../../../hooks/useCalendar";
 
 const AdminUserAttendancePage = () => {
   const { id } = useParams();
@@ -48,6 +49,8 @@ const AdminUserAttendancePage = () => {
   const { mode, handleModeChange, amIDisabled } = useMode("calendar");
   const attendanceFields = { date: "datetime-local", isClockedIn: "checkbox" };
 
+  const {currentMonth, handlePrevMonth, handleNextMonth} = useCalendar();
+  
   //handle editing/add/delete clicks
   const handleClick = (type = null, item = null) => {
     if (type === null) {
@@ -65,11 +68,17 @@ const AdminUserAttendancePage = () => {
   const handleModalSubmit = async (type, item) => {
     try {
       if (type === "add") {
+        console.log(list);
         await addAttendanceRecord(id, item);
+        console.log(item);
       } else if (type === "edit") {
+        console.log(list);
         await editAttendanceRecord(item);
+        console.log(item);
       } else if (type === "delete") {
+        console.log(list);
         await deleteAttendanceRecord(item._id);
+        console.log(item);
       }
       await loadList();
     } catch (error) {
@@ -145,6 +154,9 @@ const AdminUserAttendancePage = () => {
             )}
             {mode === "calendar" && (
               <Calendar
+                currentMonth={currentMonth}
+                handlePrevMonth={handlePrevMonth}
+                handleNextMonth={handleNextMonth}
                 list={list}
                 fields={attendanceFields}
                 onClick={handleClick}

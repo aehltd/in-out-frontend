@@ -1,7 +1,7 @@
 async function getUserKPI(_id) {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/kpi?user=${_id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/kpi?user=${_id}`,
       {
         method: "GET",
         headers: {
@@ -24,7 +24,7 @@ async function getUserKPI(_id) {
 async function addKPIRecord(_id, newItem) {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/kpi/add`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/kpi/add`,
       {
         method: "POST",
         headers: {
@@ -52,7 +52,7 @@ async function addKPIRecord(_id, newItem) {
 async function deleteKPIRecord(kpiID) {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/kpi/delete`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/kpi/delete`,
       {
         method: "DELETE",
         headers: {
@@ -78,7 +78,7 @@ async function deleteKPIRecord(kpiID) {
 async function editKPIRecord(updatedItem) {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_TEST_BACKEND_URL}/api/kpi/edit`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/kpi/edit`,
       {
         method: "PUT",
         headers: {
