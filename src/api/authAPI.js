@@ -97,4 +97,29 @@ const changePassword = async (password) => {
   }
 };
 
-export { loginUser, registerUser, confirmCurrentPassword, changePassword };
+const resetPassword = async (email) => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/auth/reset-password`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      }
+    )
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.msg);
+    }
+    return data;
+  }
+  catch (error) {
+    console.error("Failed to reset password: ", error.message);
+    throw new Error(error.message);
+  }
+};
+
+export { loginUser, registerUser, confirmCurrentPassword, changePassword, resetPassword };

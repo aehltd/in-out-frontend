@@ -58,12 +58,17 @@ const LoginForm = ({ onLogin }) => {
           />
         </div>
         <div className="mt-5 flex space-x-4 justify-between">
-          <span className="text-sm font-medium self-end ">
-            Don't have an account?{" "}
-            <Link to="/register" className="text-sky-500 underline">
-              Register here
+          <div className="text-sm font-medium self-end">
+            <Link to="/forgot-password" className="text-sky-500 underline">
+              Forgot password?
             </Link>
-          </span>
+            <div>
+              Don't have an account?{" "}
+              <Link to="/register" className="text-sky-500 underline">
+                Register here
+              </Link>
+            </div>
+          </div>
           <button
             className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg items-center"
             type="submit"

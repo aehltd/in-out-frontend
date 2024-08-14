@@ -48,12 +48,12 @@ const HomePage = () => {
 
   return (
     <div className="container max-w-sm">
-      <span className="block text-lg font-bold mr-6">Home Page</span>
-      <span className="block text-lg font-bold mr-6">Welcome, {name}!</span>
-      <div className="flex space-x-4">
+      <h1 className="flex w-full justify-center text-xl my-4">Welcome, {name}! 💪</h1>
+      <div className="flex justify-evenly">
         <ClockInButton />
         <button className="btn" onClick={handleNavToAttendance}>
-          My Attendance
+          View My Attendance
+          <span className="material-symbols-outlined align-middle ml-2">assignment</span>
         </button>
       </div>
       <div className="flex justify-between mt-6">
@@ -61,7 +61,7 @@ const HomePage = () => {
           Logout
         </button>
         <button className="btn btn-icon" onClick={handleNavToSettings}>
-          <span className="material-icons-outlined align-middle">
+          <span className="material-symbols-outlined align-middle">
             manage_accounts
           </span>
         </button>

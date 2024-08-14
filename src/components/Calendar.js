@@ -141,15 +141,15 @@ const Calendar = ({currentMonth, handlePrevMonth, handleNextMonth, list, onClick
   return (
     <>
       <div className="max-w-full flex-grow flex flex-col justify-center">
-        <div className="flex justify-between mb-4">
+        <div className="flex justify-between mb-2">
           <button className="btn btn-icon" onClick={handlePrevMonth}>
-            <span className="material-icons-outlined align-middle">arrow_back</span>
+            <span className="material-symbols-outlined align-middle">arrow_back</span>
           </button>
           <span className="flex text-2xl font-bold text-center items-center">
             {format(currentMonth, "MMMM yyyy")}
           </span>
           <button className="btn btn-icon" onClick={handleNextMonth}>
-            <span className="material-icons-outlined align-middle">
+            <span className="material-symbols-outlined align-middle">
               arrow_forward
             </span>
           </button>

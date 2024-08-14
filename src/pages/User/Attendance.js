@@ -13,7 +13,7 @@ const UserAttendancePage = () => {
   const name = localStorage.getItem("name");
   const { list, loading, error } = useList(null, getUserAttendance);
   const { mode, handleModeChange, amIDisabled } = useMode("calendar");
-  const { currentMonth, handlePrevMonth, handleNextMonth } = useCalendar(); 
+  const { currentMonth, handlePrevMonth, handleNextMonth } = useCalendar();
   const attendanceFields = { date: "datetime-local", isClockedIn: "checkbox" };
 
   const handleNavToHome = () => {
@@ -35,7 +35,13 @@ const UserAttendancePage = () => {
             <GenericList list={list} fields={attendanceFields} />
           )}
           {mode === "calendar" && (
-            <Calendar currentMonth={currentMonth} handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth} list={list} fields={attendanceFields} />
+            <Calendar
+              currentMonth={currentMonth}
+              handlePrevMonth={handlePrevMonth}
+              handleNextMonth={handleNextMonth}
+              list={list}
+              fields={attendanceFields}
+            />
           )}
         </>
       )}
@@ -45,20 +51,20 @@ const UserAttendancePage = () => {
         </button>
         <div className="flex">
           <button
-            className="btn btn-icon"
+            className="btn btn-icon rounded-r-none"
             disabled={amIDisabled("list")}
             onClick={() => handleModeChange("list")}
           >
-            <span className="material-icons-outlined align-middle">
+            <span className="material-symbols-outlined align-middle">
               reorder
             </span>
           </button>
           <button
-            className="btn btn-icon"
+            className="btn btn-icon rounded-l-none"
             disabled={amIDisabled("calendar")}
             onClick={() => handleModeChange("calendar")}
           >
-            <span className="material-icons-outlined align-middle">
+            <span className="material-symbols-outlined align-middle">
               calendar_today
             </span>
           </button>

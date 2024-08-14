@@ -1,23 +1,24 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import GenericList from "../../../components/GenericList";
+import GenericList from "../../components/GenericList";
 import {
   getUserAttendance,
   addAttendanceRecord,
   deleteAttendanceRecord,
   editAttendanceRecord,
-} from "../../../api/attendanceAPI";
-import useUserData from "../../../hooks/useUserData";
-import useList from "../../../hooks/useList";
-import Calendar from "../../../components/Calendar";
-import Modal from "../../../components/Modal";
-import useModal from "../../../hooks/useModal";
-import GenericAddEditDelete from "../../../components/GenericAddEditDelete";
-import LoadingSpinner from "../../../components/LoadingSpinner";
-import useMode from "../../../hooks/useMode";
-import useCalendar from "../../../hooks/useCalendar";
+} from "../../api/attendanceAPI";
+import useUserData from "../../hooks/useUserData";
+import useList from "../../hooks/useList";
+import Calendar from "../../components/Calendar";
+import Modal from "../../components/Modal";
+import useModal from "../../hooks/useModal";
+import GenericAddEditDelete from "../../components/GenericAddEditDelete";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import useMode from "../../hooks/useMode";
+import useCalendar from "../../hooks/useCalendar";
+import { getCurrentDate } from "../../utils/dateFormatting";
 
-const AdminUserAttendancePage = () => {
+const AdminUserPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -49,8 +50,8 @@ const AdminUserAttendancePage = () => {
   const { mode, handleModeChange, amIDisabled } = useMode("calendar");
   const attendanceFields = { date: "datetime-local", isClockedIn: "checkbox" };
 
-  const {currentMonth, handlePrevMonth, handleNextMonth} = useCalendar();
-  
+  const { currentMonth, handlePrevMonth, handleNextMonth } = useCalendar();
+
   //handle editing/add/delete clicks
   const handleClick = (type = null, item = null) => {
     if (type === null) {
@@ -92,23 +93,50 @@ const AdminUserAttendancePage = () => {
     navigate("/admin");
   };
 
-  const handleNavToUser = () => {
-    navigate(`/admin/users/${id}`);
+  const handleDownloadClick = () => {
+    const curatedList = list.map((item) => {
+      return {
+        date: item.date,
+        isClockedIn: item.isClockedIn,
+        isLate: item.isLate,
+      };
+    });
+    // Sort by date, earliest first
+    curatedList.sort((a, b) => new Date(a.date) - new Date(b.date));
+    // Convert to CSV
+    const csv = [
+      ["Date", "Clocked In", "Late"],
+      ...curatedList.map((item) => [item.date, item.isClockedIn, item.isLate]),
+    ];
+    // Convert to CSV string
+    const csvString = csv.map((row) => row.join(",")).join("\n");
+    const blob = new Blob([csvString], { type: "text/csv" });
+
+    // Download using temp link element
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `attendancedata_${user.name}_${getCurrentDate()}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   return (
     <div className="container max-w-md">
       <div>
-        <div className="flex justify-center items-center">
-          <span className="block text-3xl font-bold text-center mb-4">
-            {userLoading && "Loading..."}
-            {userError && userError}
-            {!userLoading && !userError && (
-              <>
-                {user.name}'s <br /> Attendance Record
-              </>
-            )}
-          </span>
+        <div className="flex flex-col justify-center items-center">
+          {userLoading && "Loading..."}
+          {userError && userError}
+          {!userLoading && !userError && (
+            <>
+              <h2 className="block text-2xl font-bold text-center">
+                {user.name}'s Attendance Record
+              </h2>
+              <p>Role: {user.role}</p>
+            </>
+          )}
         </div>
         {listLoading && <LoadingSpinner />}
         {listError && <p>{listError}</p>}
@@ -124,12 +152,6 @@ const AdminUserAttendancePage = () => {
               />
             </Modal>
             <div className="w-full flex items-center justify-evenly">
-              {/* <span>
-            Days late: 
-            <span className="font-bold">
-              {list.filter((item) => item.isLate).length}
-            </span>
-          </span> */}
               <span>
                 Days Clocked In:{" "}
                 <span className="font-bold">{list.length}</span>
@@ -174,31 +196,39 @@ const AdminUserAttendancePage = () => {
                 className="btn btn-secondary"
                 onClick={handleNavToDashboard}
               >
-                Back to dashboard
+                Back
               </button>
             </>
           ))}
         {!listError && !userError && (
           <>
-            <button className="btn btn-secondary" onClick={handleNavToUser}>
-              Back to user
-            </button>
             <div className="flex space-x-2">
               <button
-                className="btn btn-icon"
+                className="btn btn-secondary"
+                onClick={handleNavToDashboard}
+              >
+                Back
+              </button>
+              <button className="btn" onClick={handleDownloadClick}>
+                <span className="material-symbols-outlined">download</span>
+              </button>
+            </div>
+            <div className="flex">
+              <button
+                className="btn btn-icon rounded-r-none"
                 disabled={amIDisabled("list")}
                 onClick={() => handleModeChange("list")}
               >
-                <span className="material-icons-outlined align-middle">
+                <span className="material-symbols-outlined align-middle">
                   reorder
                 </span>
               </button>
               <button
-                className="btn btn-icon"
+                className="btn btn-icon rounded-l-none"
                 disabled={amIDisabled("calendar")}
                 onClick={() => handleModeChange("calendar")}
               >
-                <span className="material-icons-outlined align-middle">
+                <span className="material-symbols-outlined align-middle">
                   calendar_today
                 </span>
               </button>
@@ -210,4 +240,4 @@ const AdminUserAttendancePage = () => {
   );
 };
 
-export default AdminUserAttendancePage;
+export default AdminUserPage;

@@ -3,7 +3,7 @@ import React from "react";
 const UserList = ({ users, onUserClick }) => {
   return (
     <div>
-      <p className="text-xl font-bold">All users</p>
+      <p className="text-xl font-bold mb-2">All Users</p>
       <ul className="list">
         {users.map((user) => (
           <li

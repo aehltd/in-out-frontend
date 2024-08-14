@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserList from "../../components/UserList";
 import useAllUserData from "../../hooks/useAllUserData";
 import { emptyCache } from "../../utils/cache";
-import Modal from "../../components/Modal";
-import NotificationForm from "../../components/NotificationForm";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 const AdminPage = () => {
@@ -15,7 +13,6 @@ const AdminPage = () => {
   const role = localStorage.getItem("role");
 
   const { users, loading, error } = useAllUserData();
-  const [openModal, setOpenModal] = useState(false);
 
   //Validators
   useEffect(() => {
@@ -25,19 +22,6 @@ const AdminPage = () => {
     if (role !== "admin") navigate("/access-denied");
   }, [role, navigate]);
 
-  // Handle new meeting
-  const handleNewMeeting = () => {
-    console.log("NEW MEETING");
-    setOpenModal(true);
-  };
-  const handleSubmit = (scheduleItem) => {
-    console.log("Hello");
-    navigate("/");
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
   // Handle new task
   const handleNavToSettings = () => {
     navigate("/settings");
@@ -61,19 +45,11 @@ const AdminPage = () => {
 
   return (
     <>
-      <Modal isOpen={openModal} size="md">
-        <span className="block text-lg font-bold mr-6">New Schedule Item</span>
-        <NotificationForm onCancel={handleCloseModal} onSubmit={handleSubmit} />
-      </Modal>
       <div className="container max-w-sm">
-        <h1>Admin Page</h1>
-        <div>
-          <h2>Welcome, {name}!</h2>
-        </div>
-        <h3>Actions</h3>
-        <button className="btn" onClick={handleNewMeeting}>
-          Send out a new notification
-        </button>
+        <h1 className="flex w-full justify-center text-xl my-4">
+          Welcome, {name}! 📋
+        </h1>
+
         {loading && <LoadingSpinner />}
         {error && <p>{error}</p>}
         {!loading && !error && (
@@ -84,7 +60,7 @@ const AdminPage = () => {
             Log out
           </button>
           <button className="btn btn-icon" onClick={handleNavToSettings}>
-            <span className="material-icons-outlined align-middle">
+            <span className="material-symbols-outlined align-middle">
               manage_accounts
             </span>
           </button>

@@ -12,16 +12,16 @@ const Menu = ({ isOpen, onClick, onClose, position, options }) => {
         className="absolute container p-0 max-w-fit top"
         style={{ top: position.y, left: position.x }}
       >
-        <ul>
+        <ul className="space-y-1 m-1">
           {Object.keys(options).map((option) => (
-            <li key={option} className="flex my-2 first:mt-2 last:mb-2">
+            <li key={option} className="flex">
               <button
                 className="btn btn-icon hover:bg-gray-100 w-full flex my-0"
                 onClick={() => {
                   onClick(option);
                 }}
               >
-                <span className="material-icons-outlined align-middle">
+                <span className="material-symbols-outlined align-middle">
                   {option}
                 </span>
                 <span className="align-middle justify-end flex-grow">

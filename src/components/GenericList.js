@@ -10,11 +10,14 @@ const GenericList = ({ list, fields, onClick = null }) => {
   return (
     <div>
       {onClick && (
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-2">
           <button className="btn btn-icon" onClick={() => onClick("add")}>
-            <span className="material-icons-outlined align-middle">add</span>
+            <span className="material-symbols-outlined align-middle">add</span>
           </button>
         </div>
+      )}
+      {!onClick && (
+        <div className="mb-20">{" "}</div>
       )}
       <ul className="list">
         {list.map((item) => (
@@ -35,7 +38,7 @@ const GenericList = ({ list, fields, onClick = null }) => {
                     className="btn btn-icon hover:bg-gray-300"
                     onClick={() => onClick("edit", item)}
                   >
-                    <span className="material-icons-outlined align-middle">
+                    <span className="material-symbols-outlined align-middle">
                       edit
                     </span>
                   </button>
@@ -43,7 +46,7 @@ const GenericList = ({ list, fields, onClick = null }) => {
                     className="btn btn-icon hover:bg-gray-300"
                     onClick={() => onClick("delete", item)}
                   >
-                    <span className="material-icons-outlined align-middle">
+                    <span className="material-symbols-outlined align-middle">
                       delete
                     </span>
                   </button>

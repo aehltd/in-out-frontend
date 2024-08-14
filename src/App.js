@@ -1,4 +1,4 @@
-import React/**, { StrictMode }*/ from "react";
+import React /**, { StrictMode }*/ from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import HomePage from "./pages/index";
@@ -7,11 +7,10 @@ import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
 import AdminPage from "./pages/Admin";
 import AdminUserPage from "./pages/Admin/UserPage";
-import AdminUserAttendancePage from "./pages/Admin/UserPage/Attendance";
-import AdminUserKPIPage from "./pages/Admin/UserPage/KPI";
 import AccessDeniedPage from "./components/403AccessDenied";
 import NotFoundPage from "./components/404NotFound";
 import SettingsPage from "./pages/Settings";
+import PasswordResetPage from "./pages/ForgotPassword";
 
 const App = () => {
   return (
@@ -23,14 +22,12 @@ const App = () => {
           <Route path="/attendance" element={<UserAttendancePage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/users/:id" element={<AdminUserPage />} />
-          <Route
-            path="/admin/attendance/:id"
-            element={<AdminUserAttendancePage />}
-          />
-          <Route path="/admin/KPI/:id" element={<AdminUserKPIPage />} />
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/forgot-password" element={<PasswordResetPage />} />
+
           <Route path="/access-denied" element={<AccessDeniedPage />} />
           <Route path="/404-page-not-found" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
