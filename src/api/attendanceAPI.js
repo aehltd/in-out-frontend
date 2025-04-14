@@ -131,9 +131,9 @@ async function clockIn() {
     const minutes = now.getMinutes();
 
     // Check if the user is punctual, almost late, or late
-    if (hours < 9 || (hours === 9 && minutes < 35)) {
+    if (hours < 9 || (hours === 9 && minutes < 30)) {
       alert("You are punctual");
-    } else if (hours === 9 && minutes < 40) {
+    } else if (hours === 9 && minutes < 35) {
       alert("You are almost late");
     } else {
       alert("You are late");
